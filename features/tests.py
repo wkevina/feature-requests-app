@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import Client, ProductArea
+from .models import Client, ProductArea, FeatureRequest
 
 class ModelSanityTests(TestCase):
     def test_client(self):
@@ -31,3 +31,37 @@ class ModelSanityTests(TestCase):
         assert loaded_area
         assert loaded_area.id == area.id
         assert loaded_area.name == area.name
+
+
+class FeatureRequestTests(TestCase):
+    def test_creation(self):
+        """Test basic creation API"""
+
+        title = 'Test feature title'
+        description = 'Test feature description.'
+
+        feature = FeatureRequest(
+            title=title,
+            description=description,
+            client=Client.objects.create(name='test_client'),
+            client_priority=1,
+            target_date='2016-1-1',
+            product_area=ProductArea.objects.create(name='test_area')
+        )
+
+        feature.save()
+
+        # Verify all data goes in and comes out the right way
+        assert feature.title == title
+
+        assert feature.description == description
+
+        self.assertIsInstance(feature.client, Client)
+        assert feature.client.name == 'test_client'
+
+        assert feature.client_priority == 1
+
+        assert feature.target_date == '2016-1-1'
+
+        self.assertIsInstance(feature.product_area, ProductArea)
+        assert feature.product_area.name == 'test_area'
