@@ -65,3 +65,37 @@ class FeatureRequestTests(TestCase):
 
         self.assertIsInstance(feature.product_area, ProductArea)
         assert feature.product_area.name == 'test_area'
+
+    def test_unique_priority(self):
+        """For each Client, there should be no more than one FeatureRequest with
+        a given client_priority"""
+
+        client = Client.objects.create(name='test_client')
+        area = ProductArea.objects.create(name='test_area')
+        priority = 1
+
+        # Make an FR for client, priority=1
+        feature = FeatureRequest(
+            title='',
+            description='',
+            client=client,
+            client_priority=priority,
+            target_date='2016-1-1',
+            product_area=area
+        )
+
+        feature.save()
+
+        # Make another FR for same client, same priority
+        impostor = FeatureRequest(
+            title='',
+            description='',
+            client=client,
+            client_priority=priority,
+            target_date='2016-1-1',
+            product_area=area
+        )
+
+        # We'll nail down the exact exception later
+        with self.assertRaises(Exception):
+            impostor.save()
