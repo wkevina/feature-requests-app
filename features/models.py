@@ -21,6 +21,10 @@ class ProductArea(models.Model):
 class FeatureRequest(models.Model):
     """Information about a new feature a client has requested"""
 
+    class Meta:
+        # Enforce each client_priority is unique per client
+        unique_together = ('client', 'client_priority')
+
     # Short, descriptive name of the feature request.
     # Max length is 200 characters; better than a tweet!
     title = models.CharField('Title', max_length=200)

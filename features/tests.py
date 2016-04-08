@@ -1,3 +1,4 @@
+import django.db
 from django.test import TestCase
 
 from .models import Client, ProductArea, FeatureRequest
@@ -96,6 +97,5 @@ class FeatureRequestTests(TestCase):
             product_area=area
         )
 
-        # We'll nail down the exact exception later
-        with self.assertRaises(Exception):
+        with self.assertRaises(django.db.IntegrityError):
             impostor.save()
