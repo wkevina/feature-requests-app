@@ -56,6 +56,7 @@ Assuming your virtual environment is active, from the project root directory (i.
 We need to set up the database real quick before we can start running anything.
 
     $ python manage.py migrate
+    $ python manage.py loaddata initial.json
 
 ## Running
 
