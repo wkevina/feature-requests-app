@@ -1,0 +1,51 @@
+[
+    {
+        "model": "features.client",
+        "pk": 1,
+        "fields": {
+            "name": "Client A"
+        }
+    },
+    {
+        "model": "features.client",
+        "pk": 2,
+        "fields": {
+            "name": "Client B"
+        }
+    },
+    {
+        "model": "features.client",
+        "pk": 3,
+        "fields": {
+            "name": "Client C"
+        }
+    },
+    {
+        "model": "features.productarea",
+        "pk": 1,
+        "fields": {
+            "name": "Policies"
+        }
+    },
+    {
+        "model": "features.productarea",
+        "pk": 2,
+        "fields": {
+            "name": "Billing"
+        }
+    },
+    {
+        "model": "features.productarea",
+        "pk": 3,
+        "fields": {
+            "name": "Claims"
+        }
+    },
+    {
+        "model": "features.productarea",
+        "pk": 4,
+        "fields": {
+            "name": "Reports"
+        }
+    }
+]
