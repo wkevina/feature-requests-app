@@ -1,8 +1,8 @@
 import django.db
 from django.test import TestCase
 
-from .service import shift_client_priority
-from .models import Client, ProductArea, FeatureRequest
+from ..service import shift_client_priority
+from ..models import Client, ProductArea, FeatureRequest
 
 
 class ModelSanityTests(TestCase):
