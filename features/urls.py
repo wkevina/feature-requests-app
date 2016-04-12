@@ -9,8 +9,6 @@ router.register(r'features', FeatureRequestViewSet)
 router.register(r'client', ClientViewSet)
 router.register(r'productarea', ProductAreaViewSet)
 
-print(router.urls)
-
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
