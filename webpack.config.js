@@ -7,7 +7,8 @@ module.exports = {
   entry: './assets/js/index.js',
   output: {
     path: path.resolve(__dirname, './assets/bundles'),
-    filename: '[name]-[hash].js'
+    filename: '[name]-[hash].js',
+    sourceMapFilename: '[file].map'
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
