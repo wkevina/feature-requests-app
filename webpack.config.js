@@ -1,6 +1,7 @@
 /* global require */
 var path = require('path'),
-    webpack = require('webpack');
+    webpack = require('webpack'),
+    BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
   entry: './assets/js/index.js',
@@ -11,6 +12,11 @@ module.exports = {
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
+
+  plugins: [
+    new BundleTracker({filename: './webpack-stats.json'})
+  ],
+
   module: {
     loaders: [
       {
@@ -20,7 +26,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015']
+        }
       },
       {
         test: /\.json$/,
