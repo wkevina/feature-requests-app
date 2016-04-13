@@ -1,13 +1,16 @@
 {% load render_bundle from webpack_loader %}
-{% render_bundle 'main' %}
+
 <!DOCTYPE html>
 <html>
   <head>
+    {% render_bundle 'main' 'css' %}
   </head>
 
   <body>
-    <h1><--- Upvotes this way</h1>
+    {% verbatim %}
+    <div id="app">{{ message }}</div>
+    {% endverbatim %}
 
-
+    {% render_bundle 'main' 'js' %}
   </body>
 </html>
