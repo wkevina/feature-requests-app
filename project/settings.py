@@ -16,6 +16,20 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# Additional dirs to scan for static assets
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'assets'),
+]
+
+# Configure django-webpack-loader
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json')
+    }
+}
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -33,6 +47,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'features',
     'rest_framework',
+    'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
