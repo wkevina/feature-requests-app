@@ -1,8 +1,9 @@
 import Vue from 'vue';
 
-let vm = new Vue({
+import App from './app.vue';
+
+new Vue({
     el: '#app',
-    data: {
-        message: 'Hello world'
-    }
+    template: '<app></app>',
+    components: {App}
 });
