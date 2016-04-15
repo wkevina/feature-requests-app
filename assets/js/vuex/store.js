@@ -7,8 +7,8 @@ Vue.use(Vuex);
 
 
 /**
-Application-wide state object
-*/
+ Application-wide state object
+ */
 const state = {
     /* Supply mock data for now */
     features: [
@@ -19,15 +19,20 @@ const state = {
 };
 
 /**
-Functions that can mutate our state object
-*/
+ Functions that mutate our state object
+ */
 const mutations = {
-
+    /**
+     Replace the contents of the store.features array
+     */
+    REPLACE (state, features) {
+        state.features = features;
+    }
 };
 
 /**
-Bundle it all up in a Vuex.Store
-*/
+ Bundle it all up in a Vuex.Store
+ */
 const store = new Vuex.Store({
     state
 });
