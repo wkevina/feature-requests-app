@@ -32,6 +32,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.4.2",
+    "restful.js": "github:marmelab/restful.js",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -42,6 +43,7 @@
     "vuex": "^0.6.2",
     "webpack": "^1.12.2",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "whatwg-fetch": "^0.11.0"
   }
 }
