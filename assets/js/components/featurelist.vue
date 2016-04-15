@@ -16,15 +16,12 @@ A list of feature requests
 import Feature from './feature.vue';
 
 export default {
-    data () {
-        return {
-            features: [
-                {title: 'sample'},
-                {title: 'sample2'},
-                {title: 'sample3'}
-            ]
+    components: {Feature},
+    vuex: {
+        getters: {
+            /* Expose features array */
+            features: state => state.features
         }
-    },
-    components: {Feature}
+    }
 }
 </script>
