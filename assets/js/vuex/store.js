@@ -34,7 +34,8 @@ const mutations = {
  Bundle it all up in a Vuex.Store
  */
 const store = new Vuex.Store({
-    state
+    state,
+    mutations
 });
 
 export default store;
