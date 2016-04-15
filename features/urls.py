@@ -11,7 +11,7 @@ router.register(r'client', ClientViewSet)
 router.register(r'productarea', ProductAreaViewSet)
 
 urlpatterns = [
-    url(r'^', TemplateView.as_view(template_name='features/index.html')),
+    url(r'^$', TemplateView.as_view(template_name='features/index.html')),
     url(r'^api/', include(router.urls)),
     url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
