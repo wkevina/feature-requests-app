@@ -1,13 +1,18 @@
 /* global require */
 var path = require('path'),
     webpack = require('webpack'),
-    BundleTracker = require('webpack-bundle-tracker');
+    BundleTracker = require('webpack-bundle-tracker'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './assets/js/index.js',
+  entry: [
+    './assets/js/index.js',
+    './assets/js/common.js'
+  ],
   output: {
     path: path.resolve(__dirname, './assets/bundles'),
     filename: '[name]-[hash].js',
+    chunkFilename: '[name].js',
     sourceMapFilename: '[file].map'
   },
   resolveLoader: {
@@ -15,7 +20,8 @@ module.exports = {
   },
 
   plugins: [
-    new BundleTracker({filename: './webpack-stats.json'})
+    new BundleTracker({filename: './webpack-stats.json', indent: '  '}),
+    new ExtractTextPlugin("[name]-[hash].css")
   ],
 
   module: {
@@ -47,6 +53,19 @@ module.exports = {
           limit: 10000,
           name: '[name].[ext]?[hash]'
         }
+      },
+      /* Extract css */
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      },
+      /* Give sass some love */
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(
+          "style-loader",
+          "css-loader!sass-loader"
+        )
       }
     ]
   },
@@ -55,7 +74,7 @@ module.exports = {
     noInfo: true
   },
   devtool: '#eval-source-map'
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
