@@ -29,4 +29,12 @@ function fetchClients({dispatch}) {
     });
 }
 
-export {fetchFeatures, fetchClients};
+function fetchProductAreas({dispatch}) {
+    backend.endpoints.productArea.getAll().then((response) => {
+        if (response.statusCode() == 200) {
+            dispatch('PRODUCTAREAS_REPLACE', unwrapResponse(response));
+        }
+    });
+}
+
+export {fetchFeatures, fetchClients, fetchProductAreas};

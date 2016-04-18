@@ -17,5 +17,6 @@ new Vue({
     compiled() {
         this.fetchFeatures();
         this.fetchClients();
+        this.fetchProductAreas();
     }
 });
