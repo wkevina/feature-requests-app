@@ -30,5 +30,21 @@ describe('store', function() {
                 expect(store.state.features).toEqual(newGuy);
             });
         });
+
+        describe('FEATURES_APPEND', function() {
+            it('should append items from array to store.state.features', () => {
+                const newGuys = [{}, {}, {}],
+                      oldLength = store.state.features.length;
+
+                store.dispatch('FEATURES_APPEND', newGuys);
+                expect(store.state.features.length).toBe(oldLength + newGuys.length);
+
+                newGuys.forEach(function(newGuy) {
+                    expect(store.state.features.find(function(element) {
+                        return element === newGuy;
+                    })).toBe(newGuy);
+                });
+            });
+        });
     });
 });
