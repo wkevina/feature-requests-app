@@ -11,11 +11,7 @@ Vue.use(Vuex);
  */
 const state = {
     /* Supply mock data for now */
-    features: [
-        {title: 'sample'},
-        {title: 'sample2'},
-        {title: 'sample3'}
-    ]
+    features: []
 };
 
 /**
