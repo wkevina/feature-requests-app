@@ -6,6 +6,7 @@ import 'jasmine-promises';
 
 import featuresFixture from './fixtures/features.js';
 import clientFixture from './fixtures/client.js';
+import productAreaFixture from './fixtures/productarea.js';
 
 import mockApi from './mock/api.js';
 const fetchMock = require('fetch-mock');
@@ -16,7 +17,7 @@ mockApi(fetchMock);
 const backend = require('../../js/api/backend.js').default;
 // Destructure members
 const {api, endpoints} = backend;
-const {features, client} = endpoints;
+const {features, client, productArea} = endpoints;
 
 // Make sure fetch is mocked properly
 describe('fetchMock', () => {
@@ -106,6 +107,50 @@ describe('client endpoints', function() {
                 const id = grabId(item.url);
 
                 return client.get(id).then(function(response) {
+                    expect(response.body().data()).toEqual(item);
+                });
+            });
+
+            return Promise.all(fetches);
+        });
+    });
+});
+
+
+// Test productArea API
+
+describe('productArea endpoints', function() {
+
+    afterEach(function() {
+        // Clear request records
+        fetchMock.reset();
+    });
+
+
+    describe('collection', function() {
+
+        it('should fetch /api/productarea', function() {
+
+            return productArea.getAll().then((response) => {
+                expect(fetchMock.lastUrl()).toEqual('/api/productarea');
+                // Response body should match the fixture
+                expect(response.body().data()).toEqual(productAreaFixture);
+            });
+
+        });
+    });
+
+
+    describe('member', function() {
+
+        it('should fetch /api/productarea/id', function() {
+            let fetches = productAreaFixture.results.map(function(item) {
+                // Grab object id
+                const id = grabId(item.url);
+
+                return productArea.get(id).then(function(response) {
+                    let expectedUrl = RegExp(`/api/productarea/${id}/?$`);
+                    expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });
             });

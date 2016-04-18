@@ -16,6 +16,7 @@ const features = api.all('features');
 
 const client = api.all('client');
 
+const productArea = api.all('productarea');
 
 export default {
     api,
@@ -23,6 +24,8 @@ export default {
         /* feature request objects */
         features,
         /* client objects */
-        client
+        client,
+        /* productArea objects */
+        productArea
     }
 };
