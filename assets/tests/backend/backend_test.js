@@ -28,6 +28,11 @@ describe('fetchMock', () => {
     });
 });
 
+function grabId(url) {
+    // Return {id} portion of /api/endpoint/{id}/
+    return /.+\/([0-9]+)\/$/.exec(url)[1];
+}
+
 describe('features endpoints', function() {
 
     afterEach(function() {
@@ -53,7 +58,7 @@ describe('features endpoints', function() {
         it('should fetch /api/features/id', function() {
             let fetches = featuresFixture.results.map(function(item) {
                 // Grab object id
-                const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
+                const id = grabId(item.url);
 
                 return features.get(id).then(function(response) {
                     expect(response.body().data()).toEqual(item);
@@ -98,7 +103,7 @@ describe('client endpoints', function() {
         it('should fetch /api/client/id', function() {
             let fetches = clientFixture.results.map(function(item) {
                 // Grab object id
-                const id = /.+\/([0-9]+)\/$/.exec(item.url)[1];
+                const id = grabId(item.url);
 
                 return client.get(id).then(function(response) {
                     expect(response.body().data()).toEqual(item);
