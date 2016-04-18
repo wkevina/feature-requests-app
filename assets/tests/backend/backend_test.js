@@ -35,27 +35,17 @@ describe('features endpoints', function() {
         fetchMock.reset();
     });
 
-
-    it('should have a collection endpoint', function() {
-        expect(features.collection).toBeDefined();
-    });
-
-
     describe('collection', function() {
 
         it('should fetch /api/features', function() {
 
-            return features.collection.getAll().then((response) => {
+            return features.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/features');
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(featuresFixture);
             });
 
         });
-    });
-
-    it('should have a member endpoint', function() {
-        expect(features.member).toBeDefined();
     });
 
     describe('member', function() {
@@ -65,7 +55,7 @@ describe('features endpoints', function() {
                 // Grab object id
                 const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
 
-                return features.member(id).then(function(response) {
+                return features.get(id).then(function(response) {
                     expect(response.body().data()).toEqual(item);
                 });
             });
