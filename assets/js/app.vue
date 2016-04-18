@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="container">
     <h3>Clients</h3>
     <client-list></client-list>
     <hr>
