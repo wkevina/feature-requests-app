@@ -13,7 +13,7 @@ import restful, {fetchBackend} from 'restful.js';
 const api = restful('/api', fetchBackend(fetch));
 
 const featureCollection = api.all('features');
-const featureMember = api.one('features');
+const featureMember = (id) => featureCollection.get(id);
 
 export default {
     api,
