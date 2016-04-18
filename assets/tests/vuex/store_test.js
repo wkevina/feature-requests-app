@@ -46,5 +46,14 @@ describe('store', function() {
                 });
             });
         });
+
+        describe('CLIENTS_REPLACE', function() {
+            it('should replace store.state.clients', () => {
+                const newGuys = [{}, {}, {}];
+
+                store.dispatch('CLIENTS_REPLACE', newGuys);
+                expect(store.state.clients).toEqual(newGuys);
+            });
+        });
     });
 });

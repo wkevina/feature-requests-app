@@ -11,7 +11,8 @@ Vue.use(Vuex);
  */
 const state = {
     /* Supply mock data for now */
-    features: []
+    features: [],
+    clients: []
 };
 
 /**
@@ -30,6 +31,13 @@ const mutations = {
      */
     FEATURES_APPEND (state, features) {
         Array.prototype.push.apply(state.features, features);
+    },
+
+    /**
+     Replace the state.clients array
+     */
+    CLIENTS_REPLACE (state, clients) {
+        state.clients = clients;
     }
 };
 
