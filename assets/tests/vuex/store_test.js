@@ -21,11 +21,11 @@ describe('store', function() {
     });
 
     describe('mutations', function() {
-        describe('REPLACE', function() {
+        describe('FEATURES_REPLACE', function() {
             it('should replace store.state.features', () => {
                 const newGuy = [{}, {}, {}];
 
-                store.dispatch('REPLACE', newGuy);
+                store.dispatch('FEATURES_REPLACE', newGuy);
 
                 expect(store.state.features).toEqual(newGuy);
             });

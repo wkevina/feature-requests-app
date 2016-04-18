@@ -23,9 +23,9 @@ const state = {
  */
 const mutations = {
     /**
-     Replace the contents of the store.features array
+     Replace the contents of the state.features array
      */
-    REPLACE (state, features) {
+    FEATURES_REPLACE (state, features) {
         state.features = features;
     }
 };
