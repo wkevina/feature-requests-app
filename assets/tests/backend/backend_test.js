@@ -5,6 +5,7 @@
 import 'jasmine-promises';
 
 import featuresFixture from './fixtures/features.js';
+import clientFixture from './fixtures/client.js';
 
 import mockApi from './mock/api.js';
 const fetchMock = require('fetch-mock');
@@ -15,7 +16,7 @@ mockApi(fetchMock);
 const backend = require('../../js/api/backend.js').default;
 // Destructure members
 const {api, endpoints} = backend;
-const {features} = endpoints;
+const {features, client} = endpoints;
 
 // Make sure fetch is mocked properly
 describe('fetchMock', () => {
@@ -65,6 +66,59 @@ describe('features endpoints', function() {
                 const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
 
                 return features.member(id).then(function(response) {
+                    expect(response.body().data()).toEqual(item);
+                });
+            });
+
+            return Promise.all(fetches);
+        });
+    });
+});
+
+
+
+// Test client API
+// You'll notice this is essentially identical to the features API test
+// Well, I can't figure out how to DRY my way out of this without getting real fancy
+
+describe('client endpoints', function() {
+
+    afterEach(function() {
+        // Clear request records
+        fetchMock.reset();
+    });
+
+
+    it('should have a collection endpoint', function() {
+        expect(client.collection).toBeDefined();
+    });
+
+
+    describe('collection', function() {
+
+        it('should fetch /api/client', function() {
+
+            return client.collection.getAll().then((response) => {
+                expect(fetchMock.lastUrl()).toEqual('/api/client');
+                // Response body should match the fixture
+                expect(response.body().data()).toEqual(clientFixture);
+            });
+
+        });
+    });
+
+    it('should have a member endpoint', function() {
+        expect(client.member).toBeDefined();
+    });
+
+    describe('member', function() {
+
+        it('should fetch /api/client/id', function() {
+            let fetches = clientFixture.results.map(function(item) {
+                // Grab object id
+                const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
+
+                return client.member(id).then(function(response) {
                     expect(response.body().data()).toEqual(item);
                 });
             });
