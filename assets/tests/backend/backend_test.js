@@ -79,16 +79,11 @@ describe('client endpoints', function() {
     });
 
 
-    it('should have a collection endpoint', function() {
-        expect(client.collection).toBeDefined();
-    });
-
-
     describe('collection', function() {
 
         it('should fetch /api/client', function() {
 
-            return client.collection.getAll().then((response) => {
+            return client.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/client');
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(clientFixture);
@@ -97,18 +92,15 @@ describe('client endpoints', function() {
         });
     });
 
-    it('should have a member endpoint', function() {
-        expect(client.member).toBeDefined();
-    });
 
     describe('member', function() {
 
         it('should fetch /api/client/id', function() {
             let fetches = clientFixture.results.map(function(item) {
                 // Grab object id
-                const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
+                const id = /.+\/([0-9]+)\/$/.exec(item.url)[1];
 
-                return client.member(id).then(function(response) {
+                return client.get(id).then(function(response) {
                     expect(response.body().data()).toEqual(item);
                 });
             });

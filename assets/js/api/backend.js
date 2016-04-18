@@ -14,8 +14,8 @@ const api = restful('/api', fetchBackend(fetch));
 
 const features = api.all('features');
 
-const clientCollection = api.all('client');
-const clientMember = (id) => clientCollection.get(id);
+const client = api.all('client');
+
 
 export default {
     api,
@@ -23,9 +23,6 @@ export default {
         /* feature request objects */
         features,
         /* client objects */
-        client: {
-            collection: clientCollection,
-            member: clientMember
-        }
+        client
     }
 };
