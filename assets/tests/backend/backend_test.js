@@ -62,6 +62,8 @@ describe('features endpoints', function() {
                 const id = grabId(item.url);
 
                 return features.get(id).then(function(response) {
+                    let expectedUrl = RegExp(`/api/features/${id}/?$`);
+                    expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });
             });
@@ -107,6 +109,8 @@ describe('client endpoints', function() {
                 const id = grabId(item.url);
 
                 return client.get(id).then(function(response) {
+                    let expectedUrl = RegExp(`/api/client/${id}/?$`);
+                    expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });
             });
