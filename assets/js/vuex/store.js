@@ -12,7 +12,8 @@ Vue.use(Vuex);
 const state = {
     /* Supply mock data for now */
     features: [],
-    clients: []
+    clients: [],
+    productAreas: []
 };
 
 /**
@@ -38,6 +39,13 @@ const mutations = {
      */
     CLIENTS_REPLACE (state, clients) {
         state.clients = clients;
+    },
+
+    /**
+     Replace the state.productAreas array
+     */
+    PRODUCTAREAS_REPLACE (state, productAreas) {
+        state.productAreas = productAreas;
     }
 };
 

@@ -55,5 +55,14 @@ describe('store', function() {
                 expect(store.state.clients).toEqual(newGuys);
             });
         });
+
+        describe('PRODUCTAREAS_REPLACE', function() {
+            it('should replace store.state.clients', () => {
+                const newGuys = [{}, {}, {}];
+
+                store.dispatch('PRODUCTAREAS_REPLACE', newGuys);
+                expect(store.state.productAreas).toEqual(newGuys);
+            });
+        });
     });
 });
