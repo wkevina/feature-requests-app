@@ -1,4 +1,4 @@
-import store from '../js/vuex/store.js';
+import store from '../../js/vuex/store.js';
 
 describe('store', function() {
     it('should exist', () => {
