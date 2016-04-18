@@ -23,24 +23,24 @@ export default function (fetchMock) {
     fetchMock.mock(base + '/api/productarea', productArea);
 
     function strip (url) {
-        return url.replace(/^http:\/\/localhost:8000/);
+        return url.replace(/^http:\/\/localhost:8000/, '');
     }
 
     features.results.forEach((feature) => {
-        const url = base + strip(feature.url);
+        const url = strip(feature.url);
 
-        fetchMock.mock(url, feature);
+        fetchMock.mock(RegExp(url + '?$'), feature);
     });
 
     client.results.forEach((client) => {
         const url = base + strip(client.url);
 
-        fetchMock.mock(url, client);
+        fetchMock.mock(RegExp(url + '?$'), client);
     });
 
     productArea.results.forEach((area) => {
         const url = base + strip(area.url);
 
-        fetchMock.mock(url, area);
+        fetchMock.mock(RegExp(url + '?$'), area);
     });
 }

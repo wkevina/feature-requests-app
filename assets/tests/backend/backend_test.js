@@ -42,7 +42,7 @@ describe('features endpoints', function() {
 
     describe('collection', function() {
 
-        it('should request /api/features', function() {
+        it('should fetch /api/features', function() {
 
             return features.collection.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/features');
@@ -50,6 +50,26 @@ describe('features endpoints', function() {
                 expect(response.body().data()).toEqual(featuresFixture);
             });
 
+        });
+    });
+
+    it('should have a member endpoint', function() {
+        expect(features.member).toBeDefined();
+    });
+
+    describe('member', function() {
+
+        it('should fetch /api/features/id', function() {
+            let fetches = featuresFixture.results.map(function(item) {
+                // Grab object id
+                const id = String(/.+\/([0-9]+)\/$/.exec(item.url)[1]);
+
+                return features.member(id).then(function(response) {
+                    expect(response.body().data()).toEqual(item);
+                });
+            });
+
+            return Promise.all(fetches);
         });
     });
 });

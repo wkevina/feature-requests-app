@@ -19,7 +19,8 @@ export default {
     api,
     endpoints: {
         features: {
-            collection: featureCollection
+            collection: featureCollection,
+            member: featureMember
         }
     }
 };
