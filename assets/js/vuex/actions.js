@@ -8,6 +8,10 @@
 
 import backend from '../api/backend.js';
 
+function unwrapResponse(response) {
+    return response.body().data().results;
+}
+
 function fetchFeatures({dispatch}) {
     backend.endpoints.features.getAll().then((response) => {
         if (response.statusCode() == 200) {
@@ -17,4 +21,12 @@ function fetchFeatures({dispatch}) {
     });
 };
 
-export {fetchFeatures};
+function fetchClients({dispatch}) {
+    backend.endpoints.client.getAll().then((response) => {
+        if (response.statusCode() == 200) {
+            dispatch('CLIENTS_REPLACE', unwrapResponse(response));
+        }
+    });
+}
+
+export {fetchFeatures, fetchClients};
