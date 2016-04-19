@@ -7,7 +7,7 @@ A list of feature requests
     <table class="table">
 
       <thead>
-        <td v-for="name in columnNames">{{name}}</td>
+        <td v-for="name in columnNames"><b>{{name}}</b></td>
       </thead>
 
       <tbody>
@@ -20,6 +20,7 @@ A list of feature requests
 </template>
 
 <script>
+import {expandedFeatures} from '../vuex/getters.js';
 import Feature from './feature.vue';
 
 export default {
@@ -36,7 +37,7 @@ export default {
     vuex: {
         getters: {
             /* Expose features array */
-            features: state => state.features
+            features: expandedFeatures
         }
     }
 }
