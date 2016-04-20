@@ -37,7 +37,7 @@ export default {
     vuex: {
         getters: {
             /* Expose features array */
-            features: expandedFeatures
+            features: sortedFeatures
         }
     }
 }

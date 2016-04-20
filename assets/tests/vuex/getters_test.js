@@ -1,3 +1,4 @@
+import {mockState} from './mock.js';
 import * as getters from '../../js/vuex/getters.js';
 
 
@@ -37,53 +38,7 @@ describe('productAreas', function(){
 
 describe('expandedFeatures', function(){
     it('should return array of features with client and product_area replaced with representative objects', function() {
-        const state = {
-            features: [
-                {
-                    title: 'This is my title',
-                    client: '/api/client/1/',
-                    product_area: '/api/productarea/1/'
-                },
-                {
-                    title: 'This is my title',
-                    client: '/api/client/2/',
-                    product_area: '/api/productarea/2/'
-                },
-                {
-                    title: 'This is my title',
-                    client: '/api/client/3/',
-                    product_area: '/api/productarea/3/'
-                }
-            ],
-            clients: [
-                {
-                    name: 'Client A',
-                    url: '/api/client/1/'
-                },
-                {
-                    name: 'Client B',
-                    url: '/api/client/2/'
-                },
-                {
-                    name: 'Client C',
-                    url: '/api/client/3/'
-                }
-            ],
-            productAreas: [
-                {
-                    name: 'Sales',
-                    url: '/api/productarea/1/'
-                },
-                {
-                    name: 'Marketing',
-                    url: '/api/productarea/2/'
-                },
-                {
-                    name: 'Widgets',
-                    url: '/api/productarea/3/'
-                }
-            ]
-        };
+        const state = mockState();
 
         const got = getters.expandedFeatures(state);
 
@@ -94,5 +49,19 @@ describe('expandedFeatures', function(){
             expect(el.client).toEqual(state.clients[index]);
             expect(el.product_area).toEqual(state.productAreas[index]);
         });
+    });
+});
+
+describe('sortedFeatures', function() {
+    it('should sort features by state.sort props', function() {
+        const state = mockState();
+        state.sort = {
+            by: null,
+            reverse: false
+        };
+
+        state.sort.by = 'title';
+        const byTitle = getters.sortedFeatures(state);
+        expect(byTitle.length).toBe(3);
     });
 });

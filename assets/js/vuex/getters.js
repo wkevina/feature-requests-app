@@ -2,6 +2,8 @@
  Store getter functions
  */
 
+import arraySort from 'array-sort';
+
 /* Return features array */
 export const features = (state) => state.features;
 
@@ -26,4 +28,15 @@ export const expandedFeatures = (state) => {
 
         return Object.assign({}, el, expanded);
     });
+};
+
+/* Return features list sorted by criteria */
+export const sortedFeatures = (state) => {
+    const expanded = expandedFeatures(state);
+
+    if (!state.sort.by) {
+        return expanded;
+    }
+
+    return arraySort(expanded, state.sort.by, state.sort.reverse);
 };
