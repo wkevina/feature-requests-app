@@ -126,3 +126,41 @@ describe('fetchClients', function() {
         });
     });
 });
+
+describe('fetchProductAreas', function() {
+    const backend = mockBackend(),
+        actions = actionsInjector({
+            '../api/backend.js': backend
+        });
+
+    it('should call productArea.getAll()', function() {
+        const getAll = sinon.stub().returns(Promise.resolve({}));
+        backend.endpoints.productArea.getAll = getAll;
+        actions.fetchProductAreas({});
+        expect(getAll.called).toBe(true);
+    });
+
+    it('should unwrap response and dispatch PRODUCTAREAS_REPLACE', function() {
+        /* Mock response to return from endpoint */
+        const response = {results: {}},
+              /* Stub to emulate productAreas endpoint */
+              getAll = sinon.stub().returns(
+                  Promise.resolve(mockResponse(response))
+              ),
+              /* Stub for store.dispatch */
+              dispatch = sinon.stub();
+
+        /* Stub the endpoint */
+        backend.endpoints.productArea.getAll = getAll;
+
+        return delayed(function() {
+            actions.fetchProductAreas({dispatch});
+        }, function() {
+            /* Test the args to dispatch */
+            expect(dispatch.calledWith(
+                'PRODUCTAREAS_REPLACE',
+                response.results
+            )).toBe(true);
+        });
+    });
+});
