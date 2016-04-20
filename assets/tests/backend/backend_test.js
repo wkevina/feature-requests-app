@@ -52,6 +52,16 @@ describe('features endpoints', function() {
             });
 
         });
+
+        it('should fetch /api/features/?page=1', function() {
+
+            return features.getAll({page:1}).then((response) => {
+                expect(fetchMock.lastUrl()).toEqual('/api/features?page=1');
+                // Response body should match the fixture
+                expect(response.body().data()).toEqual(featuresFixture);
+            });
+
+        });
     });
 
     describe('member', function() {
