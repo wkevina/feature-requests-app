@@ -88,3 +88,41 @@ describe('fetchFeatures', function() {
         });
     });
 });
+
+describe('fetchClients', function() {
+    const backend = mockBackend(),
+        actions = actionsInjector({
+            '../api/backend.js': backend
+        });
+
+    it('should call client.getAll()', function() {
+        const getAll = sinon.stub().returns(Promise.resolve({}));
+        backend.endpoints.client.getAll = getAll;
+        actions.fetchClients({});
+        expect(getAll.called).toBe(true);
+    });
+
+    it('should unwrap response and dispatch CLIENTS_REPLACE', function() {
+        /* Mock response to return from endpoint */
+        const response = {results: {}},
+              /* Stub to emulate clients endpoint */
+              getAll = sinon.stub().returns(
+                  Promise.resolve(mockResponse(response))
+              ),
+              /* Stub for store.dispatch */
+              dispatch = sinon.stub();
+
+        /* Stub the endpoint */
+        backend.endpoints.client.getAll = getAll;
+
+        return delayed(function() {
+            actions.fetchClients({dispatch});
+        }, function() {
+            /* Test the args to dispatch */
+            expect(dispatch.calledWith(
+                'CLIENTS_REPLACE',
+                response.results
+            )).toBe(true);
+        });
+    });
+});
