@@ -10,8 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "vue": "^1.0.0",
-    "babel-runtime": "^5.8.0"
+    "babel-runtime": "^5.8.0",
+    "vue": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -22,9 +22,11 @@
     "cross-env": "^1.0.6",
     "css-loader": "^0.23.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fetch-mock": "^4.4.0",
     "file-loader": "^0.8.4",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
+    "jasmine-promises": "^0.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
@@ -33,6 +35,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.4.2",
+    "restful.js": "github:marmelab/restful.js",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -43,6 +46,7 @@
     "vuex": "^0.6.2",
     "webpack": "^1.12.2",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "whatwg-fetch": "^0.11.0"
   }
 }

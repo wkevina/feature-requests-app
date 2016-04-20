@@ -2,6 +2,8 @@ import Vue from 'vue';
 import store from './vuex/store.js';
 import App from './app.vue';
 
+import backend from './api/backend.js';
+
 /* Bootstrap the application */
 new Vue({
     el: '#app',
