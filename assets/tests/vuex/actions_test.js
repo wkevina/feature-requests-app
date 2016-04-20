@@ -3,28 +3,27 @@
  */
 
 import 'jasmine-promises';
-//import sinon from 'sinon';
-const sinon = require('sinon');
+import sinon from 'sinon';
+//const sinon = require('sinon');
 
+/* Mock api/backend.js */
 function mockBackend() {
-
     return {
-        //default: {
-            endpoints:  {
-                features: {
-                    getAll: function() {}
-                },
-                client: {
-                    getAll: function() {}
-                },
-                productArea: {
-                    getAll: function() {}
-                }
+        endpoints:  {
+            features: {
+                getAll: function() {}
+            },
+            client: {
+                getAll: function() {}
+            },
+            productArea: {
+                getAll: function() {}
             }
-        //}
+        }
     };
 }
 
+/* Mock response api/backend.js endpoints */
 function mockResponse(payload, status=200) {
     return {
         body() {
@@ -40,6 +39,14 @@ function mockResponse(payload, status=200) {
     };
 }
 
+/**
+ Helper function for testing asynchronous code
+
+ Calls `setup` callback, then returns a promise that will resolve in `delay`
+ milliseconds (default: 200).
+
+ After the delay, `wrapup` callback is called.
+*/
 function delayed(setup, wrapup, delay=200) {
     const promise = new Promise(function(resolve) {
         setup();
@@ -49,13 +56,15 @@ function delayed(setup, wrapup, delay=200) {
     return promise;
 }
 
+/* Intercept vuex/actions.js imports */
 const actionsInjector = require('inject!../../js/vuex/actions.js');
 
 describe('fetchFeatures', function() {
     const backend = mockBackend(),
-        actions = actionsInjector({
-            '../api/backend.js': backend
-        });
+          /* Import actions while injecting mock backend */
+          actions = actionsInjector({
+              '../api/backend.js': backend
+          });
 
     it('should call features.getAll()', function() {
         const getAll = sinon.stub().returns(Promise.resolve({}));
@@ -91,9 +100,9 @@ describe('fetchFeatures', function() {
 
 describe('fetchClients', function() {
     const backend = mockBackend(),
-        actions = actionsInjector({
-            '../api/backend.js': backend
-        });
+          actions = actionsInjector({
+              '../api/backend.js': backend
+          });
 
     it('should call client.getAll()', function() {
         const getAll = sinon.stub().returns(Promise.resolve({}));
@@ -129,9 +138,9 @@ describe('fetchClients', function() {
 
 describe('fetchProductAreas', function() {
     const backend = mockBackend(),
-        actions = actionsInjector({
-            '../api/backend.js': backend
-        });
+          actions = actionsInjector({
+              '../api/backend.js': backend
+          });
 
     it('should call productArea.getAll()', function() {
         const getAll = sinon.stub().returns(Promise.resolve({}));
