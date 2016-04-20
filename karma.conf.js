@@ -28,8 +28,8 @@ module.exports = function(config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             // add webpack as preprocessor
-            'assets/tests/*_test.js': ['webpack', 'sourcemap'],
-            'assets/tests/**/*_test.js': ['webpack', 'sourcemap']
+            'assets/tests/*_test.js': ['sourcemap', 'webpack'],
+            'assets/tests/**/*_test.js': ['sourcemap', 'webpack']
         },
 
 
@@ -46,6 +46,13 @@ module.exports = function(config) {
             resolveLoader: {
                 root: path.join(__dirname, 'node_modules')
             },
+
+            /* Begin sinon workaround nonsense */
+            resolve: {
+                alias: { sinon: 'sinon/pkg/sinon' }
+            },
+
+            noParse: [/sinon/],
 
             plugins: [
             ],
@@ -80,6 +87,10 @@ module.exports = function(config) {
                             name: '[name].[ext]?[hash]'
                         }
                     },
+                    {
+                        test: /sinon.*\.js$/,
+                        loader: "imports?define=>false,require=>false"
+                    }
                 ]
             },
             devtool: 'inline-source-map'
