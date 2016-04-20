@@ -4,57 +4,8 @@
 
 import 'jasmine-promises';
 import sinon from 'sinon';
-//const sinon = require('sinon');
-
-/* Mock api/backend.js */
-function mockBackend() {
-    return {
-        endpoints:  {
-            features: {
-                getAll: function() {}
-            },
-            client: {
-                getAll: function() {}
-            },
-            productArea: {
-                getAll: function() {}
-            }
-        }
-    };
-}
-
-/* Mock response api/backend.js endpoints */
-function mockResponse(payload, status=200) {
-    return {
-        body() {
-            return {
-                data() {
-                    return payload;
-                }
-            };
-        },
-        statusCode() {
-            return status;
-        }
-    };
-}
-
-/**
- Helper function for testing asynchronous code
-
- Calls `setup` callback, then returns a promise that will resolve in `delay`
- milliseconds (default: 200).
-
- After the delay, `wrapup` callback is called.
-*/
-function delayed(setup, wrapup, delay=200) {
-    const promise = new Promise(function(resolve) {
-        setup();
-        setTimeout(resolve, delay);
-    }).then(wrapup);
-
-    return promise;
-}
+import delayed from './delayed.js';
+import {mockBackend, mockResponse} from './mock.js';
 
 /* Intercept vuex/actions.js imports */
 const actionsInjector = require('inject!../../js/vuex/actions.js');
