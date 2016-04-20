@@ -31,7 +31,7 @@ const mutations = {
      Append new features to the state.features array
      */
     FEATURES_APPEND (state, features) {
-        Array.prototype.push.apply(state.features, features);
+        state.features.push(...features);
     },
 
     /**

@@ -47,6 +47,63 @@ describe('fetchFeatures', function() {
             )).toBe(true);
         });
     });
+
+    it('should keep fetching if response has next and dispatch FEATURES_APPEND', function() {
+        /* Mock response to return from endpoint */
+        const responses = [
+            {
+                results: {},
+                previous: null,
+                next: '/api/features/?page=2'
+            },
+            {
+                results: {},
+                previous: '/api/features/',
+                next: null
+            }
+        ],
+              /* Stub to emulate features endpoint */
+              getAll = sinon.stub(),
+              /* Stub for store.dispatch */
+              dispatch = sinon.stub();
+
+        /* Configure reponses */
+        getAll.onFirstCall().returns(
+            Promise.resolve(mockResponse(responses[0]))
+        );
+
+        getAll.onSecondCall().returns(
+            Promise.resolve(mockResponse(responses[1]))
+        );
+
+        /* Stub the endpoint */
+        backend.endpoints.features.getAll = getAll;
+
+        return delayed(function() {
+            actions.fetchFeatures({dispatch});
+        }, function() {
+
+            /* Should be called twice */
+            expect(dispatch.callCount).toBe(2);
+
+            /* Ensure correct args to dispatch */
+            const firstCall = dispatch.firstCall;
+            expect(firstCall.calledWith(
+                'FEATURES_REPLACE',
+                responses[0].results
+            )).toBe(true);
+
+            /* Should append on second call */
+            const secondCall = dispatch.secondCall;
+            expect(secondCall.calledWith(
+                'FEATURES_APPEND',
+                responses[1].results
+            )).toBe(true);
+
+            /* Should call endpoint with params object */
+            expect(getAll.secondCall.args[0]).toEqual({page: '2'});
+        });
+    });
 });
 
 describe('fetchClients', function() {

@@ -7,18 +7,42 @@
  */
 
 import backend from '../api/backend.js';
+import URI from 'urijs';
 
 function unwrapResponse(response) {
     return response.body().data().results;
 }
 
 function fetchFeatures({dispatch}) {
-    backend.endpoints.features.getAll().then((response) => {
+    const getAll = backend.endpoints.features.getAll;
+
+    const handler = (response) => {
         if (response.statusCode() == 200) {
-            const newFeatures = response.body().data().results;
-            dispatch('FEATURES_REPLACE', newFeatures);
+
+            const data = response.body().data();
+            const newFeatures = data.results;
+
+            /* Store data */
+            if (data.previous === null || data.previous === undefined) {
+                console.log('FEATURES_REPLACE', newFeatures);
+                dispatch('FEATURES_REPLACE', newFeatures);
+            } else {
+                console.log('FEATURES_APPEND', newFeatures);
+                dispatch('FEATURES_APPEND', newFeatures);
+            }
+
+            /* Handle pagination */
+            if (data.next) {
+                // Construct URI
+                const uri = URI(data.next),
+                      params = uri.search(true);
+
+                getAll(params).then(handler);
+            }
         }
-    });
+    };
+
+    backend.endpoints.features.getAll().then(handler);
 };
 
 function fetchClients({dispatch}) {
