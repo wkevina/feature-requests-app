@@ -11,7 +11,6 @@ A single feature request
     <td>{{ item.ticket_url || 'None' }}</td>
     <td>{{ item.client.name }}</td>
     <td>{{ item.product_area.name }}</td>
-    <td>{{ item.url }}</td>
   </tr>
 </template>
 

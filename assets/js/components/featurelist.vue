@@ -29,7 +29,7 @@ export default {
             columnNames: [
                 'Title', 'Description', 'Priority',
                 'Target Date', 'Ticket', 'Client',
-                'Product Area', 'URL'
+                'Product Area'
             ]
         }
     },
