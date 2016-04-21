@@ -24,10 +24,8 @@ function fetchFeatures({dispatch}) {
 
             /* Store data */
             if (data.previous === null || data.previous === undefined) {
-                console.log('FEATURES_REPLACE', newFeatures);
                 dispatch('FEATURES_REPLACE', newFeatures);
             } else {
-                console.log('FEATURES_APPEND', newFeatures);
                 dispatch('FEATURES_APPEND', newFeatures);
             }
 
