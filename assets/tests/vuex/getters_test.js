@@ -60,8 +60,29 @@ describe('sortedFeatures', function() {
             reverse: false
         };
 
+        /* Sort by simple property */
         state.sort.by = 'title';
         const byTitle = getters.sortedFeatures(state);
         expect(byTitle.length).toBe(3);
+        expect(byTitle.map(el => el.title)).toEqual(
+            ['Mock1', 'Mock2', 'Mock3']
+        );
+
+        /* Reverse sort */
+        state.sort.reverse = true;
+
+        const reverseTitle = getters.sortedFeatures(state);
+        expect(reverseTitle.map(el => el.title)).toEqual(
+            ['Mock3', 'Mock2', 'Mock1']
+        );
+
+        /* Sort by nested property */
+        state.sort.by = 'client.name';
+        state.sort.reverse = false;
+
+        const byClient = getters.sortedFeatures(state);
+        expect(byClient.map(el => el.client.name)).toEqual(
+            ['Client A', 'Client B', 'Client C']
+        );
     });
 });

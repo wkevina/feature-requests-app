@@ -38,5 +38,7 @@ export const sortedFeatures = (state) => {
         return expanded;
     }
 
-    return arraySort(expanded, state.sort.by, state.sort.reverse);
+    const reverse = state.sort.reverse;
+
+    return arraySort(expanded, state.sort.by, {reverse});
 };
