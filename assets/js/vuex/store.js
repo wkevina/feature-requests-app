@@ -52,6 +52,20 @@ const mutations = {
      */
     PRODUCTAREAS_REPLACE(state, productAreas) {
         state.productAreas = productAreas;
+    },
+
+    /**
+     Set state.sort.by property
+     */
+    SORT_SET_PROPERTY(state, property) {
+        state.sort.by = property;
+    },
+
+    /**
+     Set state.sort.reverse
+     */
+    SORT_SET_REVERSE(state, reverse) {
+        state.sort.reverse = reverse;
     }
 };
 

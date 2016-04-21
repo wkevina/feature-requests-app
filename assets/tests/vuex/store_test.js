@@ -64,5 +64,25 @@ describe('store', function() {
                 expect(store.state.productAreas).toEqual(newGuys);
             });
         });
+
+        describe('SORT_SET_PROPERTY', function() {
+            if('should set store.state.sort.by', function() {
+                const property = 'sorting_property';
+
+                store.dispatch('SORT_SET_PROPERTY', property);
+                expect(store.state.sort.by).toEqual(property);
+            });
+        });
+
+        describe('SORT_SET_REVERSE', function() {
+            if('should set store.state.sort.reverse', function() {
+
+                store.dispatch('SORT_SET_REVERSE', true);
+                expect(store.state.sort.by).toBe(true);
+
+                store.dispatch('SORT_SET_REVERSE', false);
+                expect(store.state.sort.by).toBe(false);
+            });
+        });
     });
 });
