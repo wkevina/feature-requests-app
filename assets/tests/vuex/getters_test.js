@@ -86,3 +86,35 @@ describe('sortedFeatures', function() {
         );
     });
 });
+
+describe('sortProperty', function() {
+    it('should return sorting key', function() {
+        const state = {};
+        state.sort = {
+            by: 'sort_property'
+        };
+
+        const got = getters.sortProperty(state);
+        expect(got).toEqual('sort_property');
+
+        state.sort.by = null;
+        const gotNull = getters.sortProperty(state);
+        expect(gotNull).toEqual(null);
+    });
+});
+
+describe('sortReverse', function() {
+    it('should return sorting key', function() {
+        const state = {};
+        state.sort = {
+            reverse: false
+        };
+
+        const got = getters.sortReverse(state);
+        expect(got).toBe(false);
+
+        state.sort.reverse = true;
+        const gotNull = getters.sortReverse(state);
+        expect(gotNull).toBe(true);
+    });
+});

@@ -42,3 +42,9 @@ export const sortedFeatures = (state) => {
 
     return arraySort(expanded, state.sort.by, {reverse});
 };
+
+/* Return current sorting property */
+export const sortProperty = (state) => state.sort.by;
+
+/* Return sorting reverse state */
+export const sortReverse = (state) => state.sort.reverse;
