@@ -181,3 +181,45 @@ describe('fetchProductAreas', function() {
         });
     });
 });
+
+describe('setSortProperty', function() {
+    /* Use regular require */
+    const actions = require('../../js/vuex/actions.js');
+    const setSortProperty = actions.setSortProperty;
+
+    it('should dispatch SORT_SET_PROPERTY', function() {
+        const dispatch = sinon.stub();
+        const property = 'sorting_property';
+
+        setSortProperty({dispatch}, property);
+
+        expect(dispatch.calledWith(
+            'SORT_SET_PROPERTY',
+            property
+        )).toBe(true);
+    });
+});
+
+describe('setSortReverse', function() {
+    /* Use regular require */
+    const actions = require('../../js/vuex/actions.js');
+    const setSortReverse = actions.setSortReverse;
+
+    it('should dispatch SORT_SET_REVERSE', function() {
+        const dispatch = sinon.stub();
+
+        setSortReverse({dispatch}, true);
+
+        expect(dispatch.calledWith(
+            'SORT_SET_REVERSE',
+            true
+        )).toBe(true);
+
+        setSortReverse({dispatch}, false);
+
+        expect(dispatch.calledWith(
+            'SORT_SET_REVERSE',
+            false
+        )).toBe(true);
+    });
+});
