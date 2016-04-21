@@ -1,0 +1,6 @@
+{
+	"preset": "airbnb",
+	"requireTrailingComma": null,
+	"disallowMultipleLineBreaks": null,
+	"validateIndentation": 4
+}
