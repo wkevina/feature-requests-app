@@ -32,8 +32,8 @@ function fetchFeatures({dispatch}) {
             /* Handle pagination */
             if (data.next) {
                 // Construct URI
-                const uri = URI(data.next),
-                      params = uri.search(true);
+                const uri = URI(data.next);
+                const params = uri.search(true);
 
                 getAll(params).then(handler);
             }

@@ -29,28 +29,28 @@ const mutations = {
     /**
      Replace the contents of the state.features array
      */
-    FEATURES_REPLACE (state, features) {
+    FEATURES_REPLACE(state, features) {
         state.features = features;
     },
 
     /**
      Append new features to the state.features array
      */
-    FEATURES_APPEND (state, features) {
+    FEATURES_APPEND(state, features) {
         state.features.push(...features);
     },
 
     /**
      Replace the state.clients array
      */
-    CLIENTS_REPLACE (state, clients) {
+    CLIENTS_REPLACE(state, clients) {
         state.clients = clients;
     },
 
     /**
      Replace the state.productAreas array
      */
-    PRODUCTAREAS_REPLACE (state, productAreas) {
+    PRODUCTAREAS_REPLACE(state, productAreas) {
         state.productAreas = productAreas;
     }
 };
