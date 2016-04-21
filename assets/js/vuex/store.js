@@ -10,10 +10,16 @@ Vue.use(Vuex);
  Application-wide state object
  */
 const state = {
-    /* Supply mock data for now */
     features: [],
     clients: [],
-    productAreas: []
+    productAreas: [],
+    /* Features sorting properties */
+    sort: {
+        /* Property to sort by */
+        by: null,
+        /* True to reverse sort order, false otherwise */
+        reverse: false
+    }
 };
 
 /**
