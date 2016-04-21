@@ -20,7 +20,7 @@ A list of feature requests
 </template>
 
 <script>
-import {expandedFeatures} from '../vuex/getters.js';
+import {sortedFeatures} from '../vuex/getters.js';
 import Feature from './feature.vue';
 
 export default {
