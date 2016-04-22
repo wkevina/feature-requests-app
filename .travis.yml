@@ -1,8 +1,25 @@
+#sudo: required
+#dist: trusty
 language: python
+node_js:
+  - "5"
 python:
   - "3.4"
   - "3.5"
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install:
+  - nvm install 5
+  - nvm use 5
+  - npm install
+  - pip install -r requirements.txt
+
+# generate bundles
+before_script:
+  - npm run build
+
 # command to run tests
-script: python manage.py test
+script:
+  # run server tests
+  - python manage.py test
+  # run frontend tests
+  - npm test -- --browsers PhantomJS
