@@ -40,6 +40,7 @@
     "karma-webpack": "^1.7.0",
     "node-sass": "^3.4.2",
     "nodep-date-input-polyfill": "^2.4.6",
+    "phantomjs-prebuilt": "^2.1.7",
     "restful.js": "github:marmelab/restful.js",
     "sass-loader": "^3.2.0",
     "sinon": "^1.17.3",
