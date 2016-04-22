@@ -59,13 +59,14 @@ function fetchProductAreas({dispatch}) {
     });
 }
 
-function setSortProperty({dispatch}, property) {
-    dispatch('SORT_SET_PROPERTY', property);
-}
-
-function setSortReverse({dispatch}, reverse) {
-    dispatch('SORT_SET_REVERSE', reverse);
+function setSort({dispatch}, {property, reverse}) {
+    if (property !== undefined) {
+        dispatch('SORT_SET_PROPERTY', property);
+    }
+    if (reverse !== undefined) {
+        dispatch('SORT_SET_REVERSE', !!reverse);
+    }
 }
 
 export {fetchFeatures, fetchClients, fetchProductAreas,
-        setSortProperty, setSortReverse};
+        setSort};

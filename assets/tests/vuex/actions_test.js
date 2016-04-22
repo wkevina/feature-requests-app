@@ -182,44 +182,48 @@ describe('fetchProductAreas', function() {
     });
 });
 
-describe('setSortProperty', function() {
+describe('setSort', function() {
     /* Use regular require */
     const actions = require('../../js/vuex/actions.js');
-    const setSortProperty = actions.setSortProperty;
+    const setSort = actions.setSort;
 
-    it('should dispatch SORT_SET_PROPERTY', function() {
+    it('should dispatch SORT_SET_PROPERTY when called with object with property key', function() {
         const dispatch = sinon.stub();
         const property = 'sorting_property';
 
-        setSortProperty({dispatch}, property);
+        setSort({dispatch}, {property});
 
         expect(dispatch.calledWith(
             'SORT_SET_PROPERTY',
             property
         )).toBe(true);
     });
-});
 
-describe('setSortReverse', function() {
-    /* Use regular require */
-    const actions = require('../../js/vuex/actions.js');
-    const setSortReverse = actions.setSortReverse;
-
-    it('should dispatch SORT_SET_REVERSE', function() {
+    it('should dispatch SORT_SET_REVERSE when called with object with reverse key', function() {
         const dispatch = sinon.stub();
 
-        setSortReverse({dispatch}, true);
+        setSort({dispatch}, {reverse: true});
+
+        expect(dispatch.calledWith(
+            'SORT_SET_REVERSE',
+            true
+        )).toBe(true);
+    });
+
+    it('should dispatch SORT_SET_REVERSE and SORT_SET_PROPERTY when called with object when property and reverse key', function() {
+        const dispatch = sinon.stub();
+        const property = 'sorting_property';
+
+        setSort({dispatch}, {property, reverse: true});
 
         expect(dispatch.calledWith(
             'SORT_SET_REVERSE',
             true
         )).toBe(true);
 
-        setSortReverse({dispatch}, false);
-
         expect(dispatch.calledWith(
-            'SORT_SET_REVERSE',
-            false
+            'SORT_SET_PROPERTY',
+            property
         )).toBe(true);
     });
 });
