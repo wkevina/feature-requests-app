@@ -2,7 +2,7 @@
   <div class="container">
     <h3>Feature Requests</h3>
     <div class="row">
-      <sort-button display-name="Reset" :sort-by="null"></sort-button>
+      <sort-button display-name="Reset" sort-by=""></sort-button>
     </div>
     <feature-list></feature-list>
   </div>

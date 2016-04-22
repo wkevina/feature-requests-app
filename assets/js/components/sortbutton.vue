@@ -8,7 +8,7 @@
 
 <script>
 
-import {setSortProperty, setSortReverse} from '../vuex/actions.js';
+import {setSort} from '../vuex/actions.js';
 import {sortProperty, sortReverse} from '../vuex/getters.js';
 
 export default {
@@ -16,14 +16,12 @@ export default {
 
     methods: {
         toggle() {
-            console.log(this.displayName);
-            console.log(this.sortBy);
             if (!this.activated) {
-                this.activated = true;
-                this.setSortProperty(this.sortBy);
-                this.setSortReverse(false);
+                const property = this.sortBy !== '' ? this.sortBy : null;
+
+                this.setSort({property, reverse: false});
             } else {
-                this.setSortReverse(!this.sortReverse);
+                this.setSort({reverse: !this.sortReverse});
             }
         }
     },
@@ -38,8 +36,7 @@ export default {
 
     vuex: {
         actions: {
-            setSortProperty,
-            setSortReverse
+            setSort
         },
         getters: {
             sortProperty,
