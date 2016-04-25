@@ -17,7 +17,17 @@ A list of feature requests
       </thead>
 
       <tbody>
-        <tr is="feature" v-for="item in features | limitBy 20" :item="item"></tr>
+
+        <tr class="feature"
+            v-for="item in features | limitBy 20">
+
+          <!-- Render according to this.columns -->
+          <td v-for="col in columns">
+            {{ item | prop col.property }}
+          </td>
+
+        </tr>
+
       </tbody>
 
     </table>
@@ -27,7 +37,7 @@ A list of feature requests
 
 <script>
 import {sortedFeatures} from '../vuex/getters.js';
-import Feature from './feature.vue';
+import '../filters/prop';
 import SortButton from './sortbutton.vue';
 
 export default {
@@ -36,16 +46,15 @@ export default {
             columns: [
                 {title: 'Title', property: 'title'},
                 {title: 'Description', property: 'description'},
-                {title: 'Priority', property: 'client_priority'},
-                {title: 'Target Date', property: 'target_date'},
-                {title: 'Ticket', property: 'ticket_url'},
                 {title: 'Client', property: 'client.name'},
-                {title: 'Product Area', property: 'product_area.name'}
+                {title: 'Priority', property: 'client_priority'},
+                {title: 'Product Area', property: 'product_area.name'},
+                {title: 'Target Date', property: 'target_date'},
+                {title: 'Ticket', property: 'ticket_url'}
             ]
         }
     },
     components: {
-        Feature,
         SortButton
     },
     vuex: {
