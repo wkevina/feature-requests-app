@@ -3,7 +3,7 @@
       @click="toggle"
       class="btn"
       :class="{'btn-primary': activated}"
-  >{{ displayName }}</button>
+  >{{ title }}</button>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ import {setSort} from '../vuex/actions.js';
 import {sortProperty, sortReverse} from '../vuex/getters.js';
 
 export default {
-    props: ['displayName', 'sortBy'],
+    props: ['title', 'sortBy'],
 
     methods: {
         toggle() {

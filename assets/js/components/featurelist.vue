@@ -9,7 +9,7 @@ A list of feature requests
       <thead>
         <td v-for="name in columns">
           <sort-button
-              :display-name="name.display"
+              :title="name.title"
               :sort-by="name.property">
           </sort-button>
         </td>
@@ -34,13 +34,13 @@ export default {
     data() {
         return {
             columns: [
-                {display: 'Title', property: 'title'},
-                {display: 'Description', property: 'description'},
-                {display: 'Priority', property: 'client_priority'},
-                {display: 'Target Date', property: 'target_date'},
-                {display: 'Ticket', property: 'ticket_url'},
-                {display: 'Client', property: 'client.name'},
-                {display: 'Product Area', property: 'product_area.name'}
+                {title: 'Title', property: 'title'},
+                {title: 'Description', property: 'description'},
+                {title: 'Priority', property: 'client_priority'},
+                {title: 'Target Date', property: 'target_date'},
+                {title: 'Ticket', property: 'ticket_url'},
+                {title: 'Client', property: 'client.name'},
+                {title: 'Product Area', property: 'product_area.name'}
             ]
         }
     },
