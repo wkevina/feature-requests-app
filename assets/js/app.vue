@@ -1,21 +1,24 @@
 <template lang="html">
   <div class="container">
     <h3>Feature Requests</h3>
-    <div class="row">
-      <sort-button display-name="Reset" sort-by=""></sort-button>
-    </div>
-    <feature-list></feature-list>
+    <ul class="nav nav-tabs">
+      <li v-for="nav in navs" v-link-active>
+        <a v-link="{name: nav.route}">{{ nav.title }}</a>
+      </li>
+    </ul>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import FeatureList from './components/featurelist.vue';
-import SortButton from './components/sortbutton.vue';
-
 export default {
-    components: {
-        FeatureList,
-        SortButton
+    data() {
+        return {
+            navs: [
+                {route: 'list-all', title: 'Home'},
+                {route: 'new-feature', title: 'Create'},
+            ]
+        }
     }
 }
 </script>
