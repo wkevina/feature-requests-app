@@ -13,11 +13,16 @@ function unwrapResponse(response) {
     return response.body().data().results;
 }
 
+function statusOk(r) {
+    return r.statusCode && r.statusCode() == 200;
+}
+
 function fetchFeatures({dispatch}) {
     const getAll = backend.endpoints.features.getAll;
 
     const handler = (response) => {
-        if (response.statusCode() == 200) {
+
+       if (statusOk(response)) {
 
             const data = response.body().data();
             const newFeatures = data.results;
@@ -45,7 +50,7 @@ function fetchFeatures({dispatch}) {
 
 function fetchClients({dispatch}) {
     backend.endpoints.client.getAll().then((response) => {
-        if (response.statusCode() == 200) {
+        if (statusOk(response)) {
             dispatch('CLIENTS_REPLACE', unwrapResponse(response));
         }
     });
@@ -53,7 +58,7 @@ function fetchClients({dispatch}) {
 
 function fetchProductAreas({dispatch}) {
     backend.endpoints.productArea.getAll().then((response) => {
-        if (response.statusCode() == 200) {
+        if (statusOk(response)) {
             dispatch('PRODUCTAREAS_REPLACE', unwrapResponse(response));
         }
     });
