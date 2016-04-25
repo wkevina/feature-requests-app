@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import sync from 'vuex-router-sync';
+import {sync} from 'vuex-router-sync';
 
 import store from './vuex/store.js';
 import * as actions from './vuex/actions.js';
@@ -14,6 +14,9 @@ Vue.use(VueRouter);
 let router = new VueRouter({
     linkActiveClass: 'active'
 });
+
+/* sync route info to store */
+sync(store, router);
 
 router.map({
     '/list': {
@@ -44,6 +47,3 @@ router.start({
 router.redirect({
     '*': '/list'
 });
-
-/* sync route info to store */
-sync(store, router);
