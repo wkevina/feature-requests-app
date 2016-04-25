@@ -7,6 +7,7 @@ import * as actions from './vuex/actions.js';
 
 import App from './app.vue';
 import FeatureList from './components/featurelist.vue';
+import FeatureForm from './components/featureform.vue';
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,7 @@ router.map({
         name: 'list-all'
     },
     '/new': {
-        component: FeatureList,
+        component: FeatureForm,
         name: 'new-feature'
     }
 });

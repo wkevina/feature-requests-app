@@ -1,4 +1,6 @@
 <template>
+  <div class="feature-form">
+  <h4>Create new feature request</h4>
   <form>
     <div class="row">
       <div class="col-md-12">
@@ -57,6 +59,7 @@
     <button type="submit" class="btn btn-default">Submit</button>
 
   </form>
+  </div>
 </template>
 
 
