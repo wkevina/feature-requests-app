@@ -23,10 +23,12 @@ install:
 # generate bundles
 before_script:
   - npm run build
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 # command to run tests
 script:
   # run server tests
   - python manage.py test
   # run frontend tests
-  - npm test -- --browsers PhantomJS
+  - npm test -- --browsers PhantomJS,Firefox
