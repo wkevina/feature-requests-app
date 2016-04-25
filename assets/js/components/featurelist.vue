@@ -19,7 +19,7 @@ A list of feature requests
       <tbody>
 
         <tr class="feature"
-            v-for="item in features | limitBy 20">
+            v-for="item in features | limitBy pageSize (page-1)*pageSize">
 
           <!-- Render according to this.columns -->
           <td v-for="col in columns">
@@ -51,7 +51,8 @@ export default {
                 {title: 'Product Area', property: 'product_area.name'},
                 {title: 'Target Date', property: 'target_date'},
                 {title: 'Ticket', property: 'ticket_url'}
-            ]
+            ],
+            pageSize: 20
         }
     },
     components: {
@@ -60,7 +61,11 @@ export default {
     vuex: {
         getters: {
             /* Expose features array */
-            features: sortedFeatures
+            features: sortedFeatures,
+            page: state => {
+                const raw = parseInt(state.route.query.page) || 1;
+                return raw > 0 ? raw : 1;
+            }
         }
     }
 }
