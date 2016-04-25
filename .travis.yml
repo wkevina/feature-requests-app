@@ -6,6 +6,13 @@ node_js:
 python:
   - "3.4"
   - "3.5"
+
+cache:
+  apt: true
+  pip: true
+  nvm: true
+  npm: true
+
 # command to install dependencies
 install:
   - nvm install 5
