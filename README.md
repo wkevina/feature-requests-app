@@ -1,5 +1,7 @@
 # Feature Requests
 
+[![Build Status](https://travis-ci.org/wkevina/feature-requests-app.svg?branch=master)](https://travis-ci.org/wkevina/feature-requests-app)
+
 This project is a simple web app that tracks requests to add or change features of a software application.
 
 ## Requirements
