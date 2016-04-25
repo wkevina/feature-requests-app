@@ -7,10 +7,12 @@ import 'jasmine-promises';
 import featuresFixture from './fixtures/features.js';
 import clientFixture from './fixtures/client.js';
 import productAreaFixture from './fixtures/productarea.js';
-
 import mockApi from './mock/api.js';
-const fetchMock = require('fetch-mock');
 
+// polyfill fetch
+require('whatwg-fetch');
+
+const fetchMock = require('fetch-mock');
 // Tiny hack to make sure fetch is actually mocked
 mockApi(fetchMock);
 
