@@ -3,7 +3,14 @@ A list of feature requests
 */
 
 <template>
-  <div class="feature-list row">
+  <div class="feature-list">
+
+      <paginator :page="page"
+                 :max-page="maxPage"
+                 route-name="list-all"
+                 klass="pull-right">
+      </paginator>
+
     <table class="table">
 
       <thead>
@@ -15,7 +22,6 @@ A list of feature requests
         </td>
 
       </thead>
-
       <tbody>
 
         <tr class="feature"
@@ -32,12 +38,19 @@ A list of feature requests
 
     </table>
 
+    <paginator :page="page"
+               :max-page="maxPage"
+               route-name="list-all"
+               klass="pull-right">
+    </paginator>
+
   </div>
 </template>
 
 <script>
 import {sortedFeatures} from '../vuex/getters.js';
 import '../filters/prop';
+import Paginator from './paginator.vue';
 import SortButton from './sortbutton.vue';
 
 export default {
@@ -56,16 +69,23 @@ export default {
         }
     },
     components: {
-        SortButton
+        SortButton,
+        Paginator
     },
     vuex: {
         getters: {
             /* Expose features array */
             features: sortedFeatures,
             page: state => {
-                const raw = parseInt(state.route.query.page) || 1;
+                const raw = parseInt(state.route.params.page) || 1;
                 return raw > 0 ? raw : 1;
             }
+        }
+    },
+    computed: {
+        // Highest page number given length this.features and this.pageSize
+        maxPage() {
+            return this.features.length / this.pageSize;
         }
     }
 }
