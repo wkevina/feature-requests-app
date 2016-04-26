@@ -9,7 +9,7 @@
         <div class="form-group">
           <label for="feature-title">Title</label>
           <input type="text" id="feature-title" class="form-control"
-                 v-model="form.title">
+                 v-model="model.title">
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="form-group">
           <label for="feature-description">Description</label>
           <textarea id="feature-description" class="form-control"
-                    v-model="form.description"></textarea>
+                    v-model="model.description"></textarea>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="form-group">
           <label for="feature-client">Client</label>
           <select id="feature-client" class="form-control"
-                  v-model="form.client">
+                  v-model="model.client">
             <option v-for="client in clients" :value="client.url">
               {{client.name}}
             </option>
@@ -44,7 +44,7 @@
         <div class="form-group">
           <label for="feature-client-priority">Priority</label>
           <input id="feature-client-priority" type="number" class="form-control"
-          v-model="form.client_priority">
+          v-model="model.client_priority">
         </div>
       </div>
 
@@ -53,7 +53,7 @@
         <div class="form-group">
           <label for="feature-product-area">Product Area</label>
           <select id="feature-product-area" class="form-control"
-          v-model="form.product_area">
+          v-model="model.product_area">
             <option v-for="area in productAreas" :value="productAreas.url">
               {{area.name}}
             </option>
@@ -66,7 +66,7 @@
         <div class="form-group">
           <label for="feature-target-date">Target Date</label>
           <input id="feature-target-date" type="date" class="form-control"
-          v-model="form.target_date">
+          v-model="model.target_date">
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
         <div class="form-group">
           <label for="feature-ticket-url">Ticket URL</label>
           <input id="feature-ticket-url" type="url" class="form-control"
-                 v-model="form.ticket_url">
+                 v-model="model.ticket_url">
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@ import {clients, productAreas} from '../vuex/getters.js';
 export default {
     data() {
         return {
-            form: {
+            model: {
                 title: '',
                 description: '',
                 client: '',
@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         log() {
-            console.log(JSON.stringify(this.form));
+            console.log(JSON.stringify(this.model));
         }
     }
 }
