@@ -84,5 +84,61 @@ describe('store', function() {
                 expect(store.state.sort.reverse).toBe(false);
             });
         });
+
+        describe('FILTER_APPEND', function() {
+            it('should add filter to filters', function() {
+
+                const testFilter = {};
+                const notInList = {};
+                const badFilter = null;
+                const extraBadFilter = undefined;
+
+                store.dispatch('FILTER_APPEND', testFilter);
+                store.dispatch('FILTER_APPEND', badFilter);
+                store.dispatch('FILTER_APPEND', extraBadFilter);
+
+                // should add valid objects
+                expect(store.state.filters.includes(testFilter)).toBe(true);
+                // if this wasn't true, I wouldn't know what to do
+                expect(store.state.filters.includes(notInList)).toBe(false);
+                // should NOT accept null
+                expect(store.state.filters.includes(badFilter)).toBe(false);
+                // should NOT accept undefined
+                expect(store.state.filters.includes(extraBadFilter)).toBe(false);
+            });
+        });
+
+        describe('FILTER_REMOVE', function() {
+            it('should remove filter from filters', function() {
+
+                const testFilter = {};
+                const anotherFilter = {};
+
+                // manually append items
+                store.state.filters.push(testFilter);
+                store.state.filters.push(anotherFilter);
+                // make sure items are present
+                expect(store.state.filters.includes(testFilter)).toBe(true);
+                expect(store.state.filters.includes(anotherFilter)).toBe(true);
+
+                store.dispatch('FILTER_REMOVE', testFilter);
+                // should NOT find testFilter
+                expect(store.state.filters.includes(testFilter)).toBe(false);
+                // other filters should NOT be affected
+                expect(store.state.filters.includes(anotherFilter)).toBe(true);
+            });
+        });
+
+        describe('FILTER_RESET', function() {
+            it('should remove all filters', function() {
+                // manually append items
+                store.state.filters.push({});
+                store.state.filters.push({});
+
+                store.dispatch('FILTER_RESET');
+
+                expect(store.state.filters.length).toEqual(0);
+            });
+        });
     });
 });

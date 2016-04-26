@@ -19,7 +19,9 @@ const state = {
         by: null,
         /* True to reverse sort order, false otherwise */
         reverse: false
-    }
+    },
+    /* Filters array */
+    filters: []
 };
 
 /**
@@ -66,7 +68,33 @@ const mutations = {
      */
     SORT_SET_REVERSE(state, reverse) {
         state.sort.reverse = reverse;
+    },
+
+    /**
+     Add filter to list
+     */
+    FILTER_APPEND(state, filter) {
+        if (filter) {
+            state.filters.push(filter);
+        }
+    },
+
+    /**
+     Remove filter from list
+     */
+    FILTER_REMOVE(state, filter) {
+        if (filter) {
+            state.filters.$remove(filter);
+        }
+    },
+
+    /**
+     Clear all filters
+     */
+    FILTER_RESET(state) {
+        state.filters = [];
     }
+
 };
 
 /**
