@@ -10,7 +10,8 @@
                :class="{'has-error': errors.title}">
             <label for="feature-title">Title</label>
             <input type="text" id="feature-title" class="form-control"
-                   v-model="model.title" v-form-ctrl name="title" required>
+                   v-model="model.title" v-form-ctrl name="title"
+                   maxlength="200" required>
           </div>
         </div>
       </div>
@@ -75,8 +76,8 @@
                :class="{'has-error': errors.target_date}">
             <label for="feature-target-date">Target Date</label>
             <input id="feature-target-date" type="date" class="form-control"
-                   v-model="model.target_date" v-form-ctrl name="target_date" required
-                   custom-validator="validateDate">
+                   v-model="model.target_date" v-form-ctrl name="target_date"
+                   required custom-validator="validateDate">
           </div>
         </div>
       </div>
@@ -93,7 +94,8 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-default" :disabled="newForm.$invalid">Submit</button>
+      <button type="submit" class="btn btn-default"
+              :disabled="newForm.$invalid">Submit</button>
 
 </template>
 
@@ -133,7 +135,7 @@ export default {
              fieldName: $touched && $invalid,
              ...
            }
-        */
+         */
         errors() {
             const errorStates = Object.entries(this.newForm.$error);
             const processed = errorStates.map((pair) => {
