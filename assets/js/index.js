@@ -19,7 +19,7 @@ let router = new VueRouter({
 sync(store, router);
 
 router.map({
-    '/list': {
+    '/list/:page': {
         component: FeatureList,
         name: 'list-all'
     },
@@ -45,5 +45,9 @@ router.start({
 }, '#app');
 
 router.redirect({
-    '*': '/list'
+    '*': '/list/1'
+});
+
+router.alias({
+    '/list': '/list/1'
 });
