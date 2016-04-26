@@ -22,9 +22,7 @@ module.exports = function(config) {
             // include polyfill
             'node_modules/babel-polyfill/dist/polyfill.js',
 
-            // all files ending in "_test"
-            'assets/tests/*_test.js',
-            'assets/tests/**/*_test.js'
+            'assets/tests/index.js'
 
         ],
 
@@ -33,8 +31,7 @@ module.exports = function(config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             // add webpack as preprocessor
-            'assets/tests/*_test.js': ['webpack', 'sourcemap'],
-            'assets/tests/**/*_test.js': ['webpack', 'sourcemap']
+            'assets/tests/index.js': ['webpack', 'sourcemap']
         },
 
 
