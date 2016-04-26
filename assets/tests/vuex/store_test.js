@@ -66,7 +66,7 @@ describe('store', function() {
         });
 
         describe('SORT_SET_PROPERTY', function() {
-            if('should set store.state.sort.by', function() {
+            it('should set store.state.sort.by', function() {
                 const property = 'sorting_property';
 
                 store.dispatch('SORT_SET_PROPERTY', property);
@@ -75,13 +75,13 @@ describe('store', function() {
         });
 
         describe('SORT_SET_REVERSE', function() {
-            if('should set store.state.sort.reverse', function() {
+            it('should set store.state.sort.reverse', function() {
 
                 store.dispatch('SORT_SET_REVERSE', true);
-                expect(store.state.sort.by).toBe(true);
+                expect(store.state.sort.reverse).toBe(true);
 
                 store.dispatch('SORT_SET_REVERSE', false);
-                expect(store.state.sort.by).toBe(false);
+                expect(store.state.sort.reverse).toBe(false);
             });
         });
     });
