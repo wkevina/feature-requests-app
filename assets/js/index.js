@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueForm from 'vue-form';
 import {sync} from 'vuex-router-sync';
 
 import store from './vuex/store.js';
@@ -10,6 +11,7 @@ import FeatureList from './components/featurelist.vue';
 import FeatureForm from './components/featureform.vue';
 
 Vue.use(VueRouter);
+Vue.use(VueForm);
 
 let router = new VueRouter({
     linkActiveClass: 'active'
