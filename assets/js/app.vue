@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <h3>Feature Requests</h3>
+    <h1>Feature Requests</h1>
     <ul class="nav nav-tabs">
       <li v-link-active>
         <a v-link="{name: 'list-all', params: {page: 1}}">Home</a>
