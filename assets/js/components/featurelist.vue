@@ -5,11 +5,21 @@ A list of feature requests
 <template>
   <div class="feature-list">
 
-      <paginator :page="page"
-                 :max-page="maxPage"
-                 route-name="list-all"
-                 klass="pull-right">
-      </paginator>
+    <div class="row">
+
+      <div class="col-md-6">
+        <filter-list></filter-list>
+      </div>
+
+      <div class="col-md-6">
+        <paginator :page="page"
+                   :max-page="maxPage"
+                   route-name="list-all"
+                   klass="pull-right">
+        </paginator>
+      </div>
+
+    </div>
 
     <table class="table">
 
@@ -52,6 +62,7 @@ import {sortedFeatures} from '../vuex/getters.js';
 import '../filters/prop';
 import Paginator from './paginator.vue';
 import SortButton from './sortbutton.vue';
+import FilterList from './filterlist.vue';
 
 export default {
     data() {
@@ -70,7 +81,8 @@ export default {
     },
     components: {
         SortButton,
-        Paginator
+        Paginator,
+        FilterList
     },
     vuex: {
         getters: {
