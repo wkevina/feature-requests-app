@@ -128,3 +128,27 @@ describe('filterList', function() {
         expect(got).toBe(state.filters);
     });
 });
+
+describe('filterOptions', function() {
+    it('should return array describing filters', function() {
+        const state = {
+            clients: [{name: 'Client A'}, {name: 'Client B'}],
+            productAreas: [{name: 'Sales'}, {name: 'Billing'}]
+        };
+
+        const got = getters.filterOptions(state);
+
+        expect(got.length).toBe(3);
+
+        expect(got[0].title).toEqual('Title');
+        expect(got[0].prop).toEqual('title');
+
+        expect(got[1].title).toEqual('Client Name');
+        expect(got[1].prop).toEqual('client.name');
+        expect(got[1].values).toEqual(['Client A', 'Client B']);
+
+        expect(got[2].title).toEqual('Product Area');
+        expect(got[2].prop).toEqual('product_area.name');
+        expect(got[2].values).toEqual(['Sales', 'Billing']);
+    });
+});

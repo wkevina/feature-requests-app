@@ -51,3 +51,32 @@ export const sortReverse = (state) => state.sort.reverse;
 
 /* Return filters list */
 export const filterList = (state) => state.filters;
+
+/* Return array describing available filters, including which property,
+ title, and a value list if applicable */
+export const filterOptions = (state) => {
+    return [
+        {
+            /* Display */
+            title: 'Title',
+            /* Which property in data */
+            prop: 'title'
+        },
+        {
+            /* Display */
+            title: 'Client Name',
+            /* Which property in data */
+            prop: 'client.name',
+            /* Values */
+            values: state.clients.map(el => el.name)
+        },
+        {
+            /* Display */
+            title: 'Product Area',
+            /* Which property in data */
+            prop: 'product_area.name',
+            /* Values */
+            values: state.productAreas.map(el => el.name)
+        }
+    ];
+};
