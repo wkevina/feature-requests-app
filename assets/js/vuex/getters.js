@@ -48,3 +48,6 @@ export const sortProperty = (state) => state.sort.by;
 
 /* Return sorting reverse state */
 export const sortReverse = (state) => state.sort.reverse;
+
+/* Return filters list */
+export const filterList = (state) => state.filters;

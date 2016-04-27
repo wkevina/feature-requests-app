@@ -118,3 +118,13 @@ describe('sortReverse', function() {
         expect(gotNull).toBe(true);
     });
 });
+
+describe('filterList', function() {
+    it('should return filters array', function() {
+        const state = {filters: []};
+
+        const got = getters.filterList(state);
+
+        expect(got).toBe(state.filters);
+    });
+});
