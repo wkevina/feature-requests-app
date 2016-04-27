@@ -140,5 +140,22 @@ describe('store', function() {
                 expect(store.state.filters.length).toEqual(0);
             });
         });
+
+        describe('FILTER_MODIFY', function() {
+            it('should change properties of filter', function() {
+                const filter = {prop: 'test', value: 'test'};
+
+                // manually append items
+                store.state.filters.push(filter);
+
+                store.dispatch('FILTER_MODIFY', filter, {
+                    prop: 'different',
+                    value: 'different'
+                });
+
+                expect(filter.prop).toEqual('different');
+                expect(filter.value).toEqual('different');
+            });
+        });
     });
 });

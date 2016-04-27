@@ -93,8 +93,19 @@ const mutations = {
      */
     FILTER_RESET(state) {
         state.filters = [];
-    }
+    },
 
+    /**
+     Modify existing filter object
+     */
+    FILTER_MODIFY(state, filter, changes) {
+        /* Ensure filter is in filters list
+         Not strictly necessary, but it would nice to know we're only operating
+         on data we own */
+        if (state.filters.includes(filter)) {
+            Object.assign(filter, changes);
+        }
+    }
 };
 
 /**

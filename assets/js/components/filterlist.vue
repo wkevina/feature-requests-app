@@ -12,7 +12,7 @@
           @click="setEdit(filter)">
 
         <template v-if="filter == filterToEdit && isEditing">
-          <input class="filter-input" :value="filter.prop"
+          <input class="filter-input" v-model="model.prop"
                  @focus="setEdit(filter)"
                  @blur="finishEdit()"
                  @keyup.enter="finishEdit()">
@@ -24,7 +24,7 @@
         <span class="filter-relation">equals</span>
 
         <template v-if="filter == filterToEdit && isEditing">
-          <input class="filter-input" :value="filter.value"
+          <input class="filter-input" v-model="model.value"
                  @focus="setEdit(filter)"
                  @blur="finishEdit()"
                  @keyup.enter="finishEdit()">
@@ -47,6 +47,9 @@
 <script>
 import {filterList} from '../vuex/getters.js';
 
+/**
+   Call function after timeout, if not cancelled before timeout
+ */
 class Cancellable {
     constructor(fn, timeout=100) {
         this.timer = setTimeout(() => fn(), timeout);
@@ -62,15 +65,26 @@ export default {
         return {
             isEditing: false,
             filterToEdit: null,
-            finishTimeout: null
+            finishTimeout: null,
+            model: {
+                prop: null,
+                value: null
+            }
         }
     },
     methods: {
+        /**
+           Set filter object to edit
+         */
         setEdit(filter) {
-            if (filter) {
+            if (filter && filter != this.filterToEdit) {
                 this.isEditing = true;
                 this.filterToEdit = filter;
-            } else {
+                this.model = {
+                    prop: filter.prop,
+                    value: filter.value
+                }
+            } else if(!filter) {
                 this.isEditing = false;
                 this.filterToEdit = null;
             }
@@ -80,12 +94,26 @@ export default {
                 this.finishTimeout = null;
             }
         },
+        /**
+           Leave editing mode after a short delay
+           Can be cancelled by calling setEdit before execution
+         */
         finishEdit() {
             if (this.finishTimeout) {
                 this.finishTimeout.cancel();
             }
 
-            this.finishTimeout = new Cancellable(() => this.setEdit(null));
+            this.finishTimeout = new Cancellable(() => {
+                console.log('finishEdit');
+                this.commit();
+                this.setEdit(null);
+            });
+        },
+        /**
+           Send changes to store
+         */
+        commit() {
+            this.updateFilter(this.filterToEdit, this.model);
         }
     },
     vuex: {
@@ -93,8 +121,11 @@ export default {
             filterList
         },
         actions: {
-            addFilter(store, filter={prop: 'Client', value: 'Bob'}) {
+            addFilter(store, filter={prop: '', value: ''}) {
                 store.dispatch('FILTER_APPEND', filter);
+            },
+            updateFilter(store, filter, updated) {
+                store.dispatch('FILTER_MODIFY', filter, updated);
             }
         }
     }
