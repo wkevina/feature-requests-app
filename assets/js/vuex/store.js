@@ -105,6 +105,13 @@ const mutations = {
         if (state.filters.includes(filter)) {
             Object.assign(filter, changes);
         }
+    },
+
+    /**
+     Remove filter
+     */
+    FILTER_REMOVE(state, filter) {
+        state.filters.$remove(filter);
     }
 };
 

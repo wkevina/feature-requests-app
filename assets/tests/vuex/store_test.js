@@ -157,5 +157,21 @@ describe('store', function() {
                 expect(filter.value).toEqual('different');
             });
         });
+
+        describe('FILTER_REMOVE', function() {
+            it('should remove a particular filter', function() {
+                const filter = {prop: 'test', value: 'test'};
+
+                // manually append items
+                store.state.filters.push(filter);
+
+                const lengthBefore = store.state.filters.length;
+
+                store.dispatch('FILTER_REMOVE', filter);
+
+                expect(store.state.filters.length).toEqual(lengthBefore - 1);
+                expect(store.state.filters.includes(filter)).toEqual(false);
+            });
+        });
     });
 });
