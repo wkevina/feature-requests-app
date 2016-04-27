@@ -1,45 +1,53 @@
 <template>
   <div class="filter-list">
 
-    <h4>Active filters</h4>
+    <div class="row">
+      <div class="col-xs-12">
+        <button @click.prevent="add" class="btn btn-primary">
+          Add Filter
+        </button>
+      </div>
+    </div>
 
-    <button @click.prevent="addFilter()" class="btn btn-primary">
-      Add Filter
-    </button>
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="list-group filter-list-group">
+          <li class="list-group-item filter-list-item" v-for="filter in filterList"
+              @click="setEdit(filter)">
 
-    <ul class="list-group filter-list-group">
-      <li class="list-group-item filter-list-item" v-for="filter in filterList"
-          @click="setEdit(filter)">
+            <template v-if="filter == filterToEdit">
+              <input class="filter-input" v-model="model.prop"
+                     placeholder="Property"
+                     @focus="setEdit(filter)"
+                     @blur="finishEdit()"
+                     @keyup.enter="finishEdit()">
+            </template>
+            <template v-else>
+              <span class="filter-value">{{ filter.prop }}</span>
+            </template>
 
-        <template v-if="filter == filterToEdit">
-          <input class="filter-input" v-model="model.prop"
-                 @focus="setEdit(filter)"
-                 @blur="finishEdit()"
-                 @keyup.enter="finishEdit()">
-        </template>
-        <template v-else>
-          <span class="filter-value">{{ filter.prop }}</span>
-        </template>
+            <span class="filter-relation">equals</span>
 
-        <span class="filter-relation">equals</span>
+            <template v-if="filter == filterToEdit">
+              <input class="filter-input" v-model="model.value"
+                     placeholder="Value"
+                     @focus="setEdit(filter)"
+                     @blur="finishEdit()"
+                     @keyup.enter="finishEdit()">
+            </template>
+            <template v-else>
+              <span class="filter-value">{{ filter.value }}</span>
+            </template>
 
-        <template v-if="filter == filterToEdit">
-          <input class="filter-input" v-model="model.value"
-                 @focus="setEdit(filter)"
-                 @blur="finishEdit()"
-                 @keyup.enter="finishEdit()">
-        </template>
-        <template v-else>
-          <span class="filter-value">{{ filter.value }}</span>
-        </template>
+            <div class="filter-control">
+              <a @click="removeFilter(filter)" class="glyphicon glyphicon-remove"></a>
+            </div>
 
-        <div class="filter-control">
-          <a @click="removeFilter(filter)" class="glyphicon glyphicon-remove"></a>
-        </div>
+          </li>
+        </ul>
 
-      </li>
-    </ul>
-
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,6 +80,14 @@ export default {
         }
     },
     methods: {
+        /**
+           Add new filter and begin editing
+         */
+        add() {
+            this.addFilter();
+            this.filterToEdit = this.filterList[this.filterList.length-1];
+            console.log(this.filterToEdit);
+        },
         /**
            Set filter object to edit
          */
