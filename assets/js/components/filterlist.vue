@@ -11,7 +11,7 @@
       <li class="list-group-item filter-list-item" v-for="filter in filterList"
           @click="setEdit(filter)">
 
-        <template v-if="filter == filterToEdit && isEditing">
+        <template v-if="filter == filterToEdit">
           <input class="filter-input" v-model="model.prop"
                  @focus="setEdit(filter)"
                  @blur="finishEdit()"
@@ -23,7 +23,7 @@
 
         <span class="filter-relation">equals</span>
 
-        <template v-if="filter == filterToEdit && isEditing">
+        <template v-if="filter == filterToEdit">
           <input class="filter-input" v-model="model.value"
                  @focus="setEdit(filter)"
                  @blur="finishEdit()"
@@ -34,7 +34,7 @@
         </template>
 
         <div class="filter-control">
-          <a class="glyphicon glyphicon-remove"></a>
+          <a @click="removeFilter(filter)" class="glyphicon glyphicon-remove"></a>
         </div>
 
       </li>
@@ -63,7 +63,6 @@ class Cancellable {
 export default {
     data() {
         return {
-            isEditing: false,
             filterToEdit: null,
             finishTimeout: null,
             model: {
@@ -78,14 +77,12 @@ export default {
          */
         setEdit(filter) {
             if (filter && filter != this.filterToEdit) {
-                this.isEditing = true;
                 this.filterToEdit = filter;
                 this.model = {
                     prop: filter.prop,
                     value: filter.value
                 }
             } else if(!filter) {
-                this.isEditing = false;
                 this.filterToEdit = null;
             }
 
@@ -126,6 +123,9 @@ export default {
             },
             updateFilter(store, filter, updated) {
                 store.dispatch('FILTER_MODIFY', filter, updated);
+            },
+            removeFilter(store, filter) {
+                store.dispatch('FILTER_REMOVE', filter);
             }
         }
     }
