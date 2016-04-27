@@ -9,6 +9,15 @@
         <a v-link="{name: 'new-feature'}">Create</a>
       </li>
     </ul>
-    <router-view></router-view>
+
+    <div class="buffer">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
+
+<style>
+ .buffer {
+     margin-top: 24px;
+ }
+</style>
