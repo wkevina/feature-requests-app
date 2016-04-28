@@ -9,55 +9,10 @@
       </div>
     </div>
 
-    <div class="row buffer">
-      <div class="col-xs-12">
-        <ul class="list-group filter-list-group">
-          <li class="list-group-item filter-list-item" v-for="filter in filterList"
-              @click="setEdit(filter)">
-
-            <template v-if="filter == filterToEdit">
-
-              <!-- Generate select from filterOptions -->
-              <select v-model="model.opt" class="filter-input"
-                      @blur="finishEdit()" @keyup.enter="finishEdit()">
-
-                <option disabled>Filter by</option>
-                <option v-for="opt in filterOptions" :value="opt">{{opt.title}}</option>
-              </select>
-
-            </template>
-            <template v-else>
-              <span class="filter-value">{{ filter.title || filter.prop }}</span>
-            </template>
-
-            <span class="filter-relation">equals</span>
-
-            <template v-if="filter == filterToEdit">
-              <!-- Render as select if there is a values array -->
-              <select v-if="hasValueList" class="filter-input" v-model="model.value"
-                      @blur="finishEdit()" @keyup.enter="finishEdit()">
-
-                <option v-for="value in model.opt.values"
-                        :selected="$index == 0">{{ value }}</option>
-              </select>
-
-              <!-- Render as input for open-ended filters -->
-              <input v-else class="filter-input" v-model="model.value"
-                     placeholder="Value" @blur="finishEdit()"
-                     @keyup.enter="finishEdit()">
-            </template>
-            <template v-else>
-              <span class="filter-value">{{ filter.value }}</span>
-            </template>
-
-            <div class="filter-control">
-              <a @click="removeFilter(filter)" class="glyphicon glyphicon-remove"></a>
-            </div>
-
-          </li>
-        </ul>
-
-      </div>
+    <div class="buffer">
+      <ul class="list-group filter-list-group">
+        <filter-list-item v-for="filter in filterList" :filter="filter"></filter-list-item>
+      </ul>
     </div>
   </div>
 </template>
@@ -66,6 +21,8 @@
 <script>
 import {filterList, clients, productAreas,
         filterOptions} from '../vuex/getters.js';
+
+import FilterListItem from './filter-list-item.vue';
 
 /**
    Call function after timeout, if not cancelled before timeout
@@ -199,7 +156,7 @@ export default {
             filterOptions
         },
         actions: {
-            addFilter(store, filter={prop: '', value: ''}) {
+            addFilter(store, filter={prop: 'client.name', value: 'Client A'}) {
                 store.dispatch('FILTER_APPEND', filter);
             },
             updateFilter(store, filter, updated) {
@@ -209,7 +166,8 @@ export default {
                 store.dispatch('FILTER_REMOVE', filter);
             }
         }
-    }
+    },
+    components: {FilterListItem}
 }
 </script>
 
