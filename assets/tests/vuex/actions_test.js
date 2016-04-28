@@ -227,3 +227,19 @@ describe('setSort', function() {
         )).toBe(true);
     });
 });
+
+describe('addEmptyFilter', function() {
+    const actions = require('../../js/vuex/actions.js');
+    const addEmptyFilter = actions.addEmptyFilter;
+
+    it('should dispatch FILTER_APPEND with empty filter', function() {
+        const dispatch = sinon.stub();
+
+        addEmptyFilter({ dispatch });
+
+        expect(dispatch.calledWith(
+            'FILTER_APPEND',
+            {opt: null, value: null}
+        )).toBe(true);
+    });
+});

@@ -73,5 +73,10 @@ function setSort({dispatch}, {property, reverse}) {
     }
 }
 
+function addEmptyFilter({dispatch}) {
+    dispatch('FILTER_APPEND', {opt: null, value: null});
+}
+
 export {fetchFeatures, fetchClients, fetchProductAreas,
-        setSort};
+        setSort,
+        addEmptyFilter};
