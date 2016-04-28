@@ -62,7 +62,7 @@ import {sortedFeatures} from '../vuex/getters.js';
 import '../filters/prop';
 import Paginator from './paginator.vue';
 import SortButton from './sortbutton.vue';
-import FilterList from './filterlist.vue';
+import FilterList from './filter-list.vue';
 
 export default {
     data() {
