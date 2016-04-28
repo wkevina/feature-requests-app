@@ -243,3 +243,23 @@ describe('addEmptyFilter', function() {
         )).toBe(true);
     });
 });
+
+describe('updateFilter', function() {
+    const actions = require('../../js/vuex/actions.js');
+    const updateFilter = actions.updateFilter;
+
+    it('should dispatch FILTER_MODIFY with new values', function() {
+        const dispatch = sinon.stub();
+        const props = {
+            opt: {},
+            value: 'find me'
+        };
+
+        updateFilter({ dispatch }, props);
+
+        expect(dispatch.calledWith(
+            'FILTER_MODIFY',
+            props
+        )).toBe(true);
+    });
+});

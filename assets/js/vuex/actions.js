@@ -77,6 +77,10 @@ function addEmptyFilter({dispatch}) {
     dispatch('FILTER_APPEND', {opt: null, value: null});
 }
 
+function updateFilter({ dispatch }, filter, updated) {
+    dispatch('FILTER_MODIFY', filter, updated);
+}
+
 export {fetchFeatures, fetchClients, fetchProductAreas,
         setSort,
-        addEmptyFilter};
+        addEmptyFilter, updateFilter};
