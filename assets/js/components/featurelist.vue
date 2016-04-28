@@ -58,11 +58,12 @@ A list of feature requests
 </template>
 
 <script>
-import {sortedFeatures} from '../vuex/getters.js';
+import {filteredFeatures, filterList} from '../vuex/getters.js';
 import '../filters/prop';
 import Paginator from './paginator.vue';
 import SortButton from './sortbutton.vue';
 import FilterList from './filter-list.vue';
+
 
 export default {
     data() {
@@ -87,7 +88,7 @@ export default {
     vuex: {
         getters: {
             /* Expose features array */
-            features: sortedFeatures,
+            features: filteredFeatures,
             page: state => {
                 const raw = parseInt(state.route.params.page) || 1;
                 return raw > 0 ? raw : 1;

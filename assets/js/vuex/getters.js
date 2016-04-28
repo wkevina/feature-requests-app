@@ -3,6 +3,7 @@
  */
 
 import arraySort from 'array-sort';
+import { makeFilter } from './util.js';
 
 /* Return features array */
 export const features = (state) => state.features;
@@ -79,4 +80,11 @@ export const filterOptions = (state) => {
             values: state.productAreas.map(el => el.name)
         }
     ];
+};
+
+/* Return sorted, filtered features array */
+export const filteredFeatures = (state) => {
+    const filterFunc = makeFilter(filterList(state));
+
+    return sortedFeatures(state).filter(filterFunc);
 };

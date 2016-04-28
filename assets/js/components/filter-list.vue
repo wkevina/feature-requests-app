@@ -73,7 +73,7 @@ export default {
          display: flex;
          justify-content: space-between;
          align-items: baseline;
-         padding: 0 0 0 1em;
+         padding: 0.5em;
 
          .filter-relation {
              text-align: center;
