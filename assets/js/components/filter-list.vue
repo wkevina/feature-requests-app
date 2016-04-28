@@ -19,8 +19,9 @@
 
 
 <script>
-import {filterList, clients, productAreas,
-        filterOptions} from '../vuex/getters.js';
+import {filterList} from '../vuex/getters.js';
+
+import {addEmptyFilter} from '../vuex/actions.js';
 
 import FilterListItem from './filter-list-item.vue';
 
@@ -38,133 +39,26 @@ class Cancellable {
 }
 
 export default {
-    data() {
-        return {
-            filterToEdit: null,
-            finishTimeout: null,
-            model: {
-                opt: null,
-                value: null
-            }
-        }
-    },
     methods: {
         /**
-           Add new filter and begin editing
+           Add new filter
          */
         add() {
-            this.addFilter();
-            this.setEdit(this.filterList[this.filterList.length-1]);
-        },
-        /**
-           Set filter object to edit
-         */
-        setEdit(filter) {
-            if (filter) {
-                if(filter != this.filterToEdit){
-                    if (this.filterToEdit) {
-                        this.commit();
-                    }
+            this.addEmptyFilter();
 
-                    this.filterToEdit = filter;
-
-                    if (filter.prop) {
-                        // find filterOption that matches prop
-                        const opt = this.filterOptions.find(
-                            el => el.prop == filter.prop);
-
-                        if (opt) {
-                            this.model.opt = opt;
-                            this.model.value = filter.value;
-                        } else {
-                            this.clearModel();
-                        }
-                    }
-                }
-            } else if(!filter) {
-                this.filterToEdit = null;
-                this.clearModel();
-            }
-
-            if (this.finishTimeout) {
-                this.finishTimeout.cancel();
-                this.finishTimeout = null;
-            }
-        },
-        clearModel() {
-            this.model.opt = null;
-            this.model.value = null;
-        },
-        /**
-           Leave editing mode after a short delay
-           Can be cancelled by calling setEdit before execution
-         */
-        finishEdit() {
-            if (this.finishTimeout) {
-                this.finishTimeout.cancel();
-            }
-
-            this.finishTimeout = new Cancellable(() => {
-                this.commit();
-                this.setEdit(null);
+            this.$nextTick(() => {
+                const newest = this.filterList[this.filterList.length-1];
+                /* Notify children of new filter */
+                this.$broadcast('filter-added', newest)
             });
-        },
-        /**
-           Send changes to store
-         */
-        commit() {
-            /* Validate model data */
-            const hasData = !!this.model.opt && !!this.model.value;
-
-            if (hasData) {
-                let isValid = true;
-
-                if (this.model.opt.values) {
-                    isValid = this.model.opt.values.includes(this.model.value)
-                }
-
-                if (isValid) {
-                    const prop = this.model.opt.prop;
-                    const title = this.model.opt.title;
-                    const value = this.model.value;
-
-                    /* Submit modified data */
-                    this.updateFilter(this.filterToEdit, {prop, title, value});
-                }
-            }
-        }
-    },
-    computed: {
-        /**
-           Return true if current filterOption has value list
-         */
-        hasValueList() {
-            const currentOption = this.model.opt;
-
-            if (currentOption && currentOption.values) {
-                return true;
-            }
-
-            return false;
         }
     },
     vuex: {
         getters: {
-            filterList,
-            clients,
-            productAreas,
-            filterOptions
+            filterList
         },
         actions: {
-            addFilter(store, filter={prop: 'client.name', value: 'Client A'}) {
-                store.dispatch('FILTER_APPEND', filter);
-            },
-            updateFilter(store, filter, updated) {
-                store.dispatch('FILTER_MODIFY', filter, updated);
-            },
-            removeFilter(store, filter) {
-                store.dispatch('FILTER_REMOVE', filter);
-            }
+            addEmptyFilter,
         }
     },
     components: {FilterListItem}
@@ -208,6 +102,4 @@ export default {
          }
      }
  }
-
-
 </style>
