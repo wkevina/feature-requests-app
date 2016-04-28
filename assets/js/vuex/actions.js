@@ -68,19 +68,26 @@ function setSort({dispatch}, {property, reverse}) {
     if (property !== undefined) {
         dispatch('SORT_SET_PROPERTY', property);
     }
+
     if (reverse !== undefined) {
         dispatch('SORT_SET_REVERSE', !!reverse);
     }
 }
 
 function addEmptyFilter({dispatch}) {
-    dispatch('FILTER_APPEND', {opt: null, value: null});
+    dispatch('FILTER_APPEND', {
+        opt: null, value: null
+    });
 }
 
 function updateFilter({ dispatch }, filter, updated) {
     dispatch('FILTER_MODIFY', filter, updated);
 }
 
+function removeFilter({ dispatch }, filter) {
+    dispatch('FILTER_REMOVE', filter);
+}
+
 export {fetchFeatures, fetchClients, fetchProductAreas,
         setSort,
-        addEmptyFilter, updateFilter};
+        addEmptyFilter, updateFilter, removeFilter};

@@ -250,16 +250,35 @@ describe('updateFilter', function() {
 
     it('should dispatch FILTER_MODIFY with new values', function() {
         const dispatch = sinon.stub();
+        const filter = {opt: null, value: null};
         const props = {
             opt: {},
             value: 'find me'
         };
 
-        updateFilter({ dispatch }, props);
+        updateFilter({ dispatch }, filter, props);
 
         expect(dispatch.calledWith(
             'FILTER_MODIFY',
+            filter,
             props
+        )).toBe(true);
+    });
+});
+
+describe('removeFilter', function() {
+    const actions = require('../../js/vuex/actions.js');
+    const removeFilter = actions.removeFilter;
+
+    it('should dispatch FILTER_REMOVE with filter argument', function() {
+        const dispatch = sinon.stub();
+        const filter = {};
+
+        removeFilter({ dispatch }, filter);
+
+        expect(dispatch.calledWith(
+            'FILTER_REMOVE',
+            filter
         )).toBe(true);
     });
 });
