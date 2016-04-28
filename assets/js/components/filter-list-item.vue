@@ -32,12 +32,12 @@
       <!-- Render filter info statically -->
       <span class="filter-value">{{ model.opt.title }}</span>
       <span class="filter-relation">equals</span>
-      <span class="filter-value">{{ model.value }}</span>
+      <span class="filter-value">{{ model.value || '&nbsp;' }}</span>
     </template>
 
-    <div class="filter-control">
-      <a @click="removeFilter(filter)" class="glyphicon glyphicon-remove"></a>
-    </div>
+    <a class="filter-control btn btn-danger" @click="removeFilter(filter)" >
+      <span class="glyphicon glyphicon-remove"></span>
+    </a>
 
   </li>
 

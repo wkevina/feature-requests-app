@@ -69,14 +69,21 @@ export default {
 
  .filter-list-group {
      .filter-list-item {
-         > * {
-             display: inline-block;
-             line-height: 24px;
-             padding: 4px;
-         }
+
+         display: flex;
+         justify-content: space-between;
+         align-items: baseline;
+         padding: 0 0 0 1em;
 
          .filter-relation {
              text-align: center;
+         }
+
+         .filter-value {
+             padding: 0.27em;
+             padding-left: 0.47em;
+             background: #EEE;
+             border-radius: 0.3em;
          }
 
          .filter-input, .filter-value {
@@ -86,11 +93,13 @@ export default {
          .filter-input {
              line-height: 20px;
              border: 0;
+             padding: 0.2em;
          }
 
          input.filter-input {
              border-bottom: solid 2px #c9c9c9;
              transition: border 0.3s;
+             padding-left: 0.47em;
          }
 
          input.filter-input:focus {
@@ -98,7 +107,7 @@ export default {
          }
 
          select.filter-input {
-             padding: 2px;
+             padding-left: 0.2em;
          }
      }
  }
