@@ -130,6 +130,34 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(matches, 1)
 
 
+    def test_put(self):
+        """Should update an existing feature request"""
+
+        model = FeatureRequest.objects.get(pk=1)
+
+        url = '/api/features/{}/'.format(model.id)
+
+        fetched = self.client.get(url).data
+        self.assertEqual(fetched['client_priority'], model.client_priority)
+        self.assertEqual(fetched['title'], model.title)
+
+        # should be able to put same data back
+        request = self.client.put(url, fetched, format='json')
+
+        self.assertEqual(request.status_code, status.HTTP_200_OK)
+
+        changed = fetched
+        changed.update(client_priority=100, title='I WAS CHANGED')
+
+        request = self.client.put(url, changed, format='json')
+
+        self.assertEqual(request.status_code, status.HTTP_200_OK)
+        self.assertEqual(changed, request.data)
+
+
+    def setUp(self):
+        self.client.force_authenticate(user=self.user)
+
     @classmethod
     def setUpTestData(cls):
 
@@ -149,8 +177,8 @@ class TestFeaturesAPI(APITestCase):
 
         for priority in range(1, 4):
             FeatureRequest.objects.create(
-                title='',
-                description='',
+                title='Title',
+                description='Desc',
                 client=c_a,
                 client_priority=priority,
                 target_date='2016-5-1',
@@ -159,8 +187,8 @@ class TestFeaturesAPI(APITestCase):
             )
 
             FeatureRequest.objects.create(
-                title='',
-                description='',
+                title='Title',
+                description='Desc',
                 client=c_b,
                 client_priority=priority,
                 target_date='2016-5-1',
@@ -169,8 +197,8 @@ class TestFeaturesAPI(APITestCase):
             )
 
             FeatureRequest.objects.create(
-                title='',
-                description='',
+                title='Title',
+                description='Desc',
                 client=c_c,
                 client_priority=priority,
                 target_date='2016-5-1',
