@@ -111,6 +111,11 @@ class TestFeaturesAPI(APITestCase):
             ticket_url='http://bing.com'
         )
 
+        matches = FeatureRequest.objects.filter(
+            title='My Title', client_priority=4).count()
+
+        self.assertEqual(matches, 0)
+
         # login
         self.client.force_authenticate(user=self.user)
 
@@ -118,6 +123,11 @@ class TestFeaturesAPI(APITestCase):
                                         format='json')
 
         self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
+
+        matches = FeatureRequest.objects.filter(
+            title='My Title', client_priority=4).count()
+
+        self.assertEqual(matches, 1)
 
 
     @classmethod
