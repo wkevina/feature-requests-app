@@ -1,6 +1,10 @@
 <template>
   <div class="filter-list">
 
+      <ul class="list-group filter-list-group">
+        <filter-list-item v-for="filter in filterList" :filter="filter"></filter-list-item>
+      </ul>
+
     <div class="row">
       <div class="col-xs-12">
         <button @click.prevent="add" class="btn btn-primary">
@@ -9,11 +13,6 @@
       </div>
     </div>
 
-    <div class="buffer">
-      <ul class="list-group filter-list-group">
-        <filter-list-item v-for="filter in filterList" :filter="filter"></filter-list-item>
-      </ul>
-    </div>
   </div>
 </template>
 
