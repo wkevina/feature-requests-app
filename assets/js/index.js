@@ -21,6 +21,9 @@ let router = new VueRouter({
 sync(store, router);
 
 router.map({
+    '/list': {
+        name: 'home'
+    },
     '/list/:page': {
         component: FeatureList,
         name: 'list-all'

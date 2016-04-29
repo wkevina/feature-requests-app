@@ -3,7 +3,7 @@
     <h1>Feature Requests</h1>
     <ul class="nav nav-tabs">
       <li v-link-active>
-        <a v-link="{name: 'list-all', params: {page: 1}}">Home</a>
+        <a v-link="{name: 'home'}">Home</a>
       </li>
       <li v-link-active>
         <a v-link="{name: 'new-feature'}">Create</a>
