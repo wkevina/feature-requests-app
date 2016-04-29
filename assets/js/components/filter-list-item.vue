@@ -1,39 +1,41 @@
 <template>
   <li class="list-group-item filter-list-item"
-      @click="beginEdit">
+      v-focus:opt-select  @click="beginEdit">
 
-    <template v-if="editing">
+    <!-- Generate select from filterOptions -->
+    <select v-show="editing" v-model="model.opt" class="filter-input" tabindex="0"
+            v-el:opt-select @change="forceValidValue">
 
-      <!-- Generate select from filterOptions -->
-      <select v-model="model.opt" class="filter-input" tabindex="0"
-              v-el:opt-select @change="forceValidValue">
+      <option v-for="opt in filterOptions" :value="opt">{{opt.title}}</option>
+    </select>
 
-        <option v-for="opt in filterOptions" :value="opt">{{opt.title}}</option>
-      </select>
+    <span v-show="editing" class="filter-relation">equals</span>
 
-      <span class="filter-relation">equals</span>
+    <!-- Render as select if there is a values array -->
+    <select v-show="values && editing" class="filter-input" tabindex="0"
+            v-el:value-select v-model="model.value" @keyup.enter="commit">
 
-      <!-- Render as select if there is a values array -->
-      <select v-show="values" class="filter-input" tabindex="0"
-              v-model="model.value" @keyup.enter="commit">
+      <option v-for="value in values" :value="value">
+        {{ value }}
+      </option>
+    </select>
 
-        <option v-for="value in values" :value="value">
-          {{ value }}
-        </option>
-      </select>
+    <!-- Render as input for open-ended filters -->
+    <input v-show="editing && !values" class="filter-input" tabindex="0"
+           placeholder="Value" v-el:value-input v-model="model.value"
+           @keyup.enter="commit">
 
-      <!-- Render as input for open-ended filters -->
-      <input v-else class="filter-input" tabindex="0" placeholder="Value"
-             v-model="model.value" @keyup.enter="commit">
 
-    </template>
+    <!-- Render filter info statically -->
+    <span v-show="!editing" class="filter-value">{{ model.opt.title }}</span>
 
-    <template v-else>
-      <!-- Render filter info statically -->
-      <span class="filter-value">{{ model.opt.title }}</span>
-      <span class="filter-relation">equals</span>
-      <span class="filter-value">{{ model.value || '&nbsp;' }}</span>
-    </template>
+    <span v-show="!editing" class="filter-relation">equals</span>
+
+    <span v-show="!editing" class="filter-value"
+          v-focus:value-select:value-input>
+      {{ model.value || '&nbsp;' }}
+    </span>
+
 
     <a class="filter-control btn btn-danger" @click="removeFilter(filter)" >
       <span class="glyphicon glyphicon-remove"></span>
@@ -46,10 +48,41 @@
 <script>
 import {filterOptions} from '../vuex/getters.js';
 import {updateFilter, removeFilter} from '../vuex/actions.js';
+import Vue, {util} from 'vue';
+
+const camelize = util.camelize;
+const on = util.on;
+const off = util.off;
 
 export default {
     props: {
         filter: Object
+    },
+
+    directives: {
+        'focus': {
+            bind: function () {
+                if (!this.arg)
+                    return;
+
+                this.targets = this.arg.split(':').map(camelize);
+
+                on(this.el, 'click', () => {
+                    setTimeout(() => {
+                        this.focusTargets();
+                    }, 100);
+                });
+            },
+            focusTargets() {
+                console.log(this.targets);
+                for (let target of this.targets) {
+                    // Lookup each target in parent
+                    const t = this.vm.$els[target];
+                    t.focus();
+                    console.log(t);
+                }
+            }
+        }
     },
 
     data() {
@@ -96,7 +129,6 @@ export default {
             if (!this.editing) {
                 this.editing = true;
                 this.sync();
-                this.$nextTick(() => this.$els.optSelect.focus());
             }
         },
 
@@ -145,7 +177,7 @@ export default {
     events: {
         /* Called when new filter is added
            If it belongs to this component, it enters editing mode
-        */
+         */
         'filter-added': function(filter) {
             if (filter === this.filter) {
                 this.beginEdit();
