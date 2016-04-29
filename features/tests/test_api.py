@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
+from rest_framework import status
 
 from ..models import FeatureRequest, Client, ProductArea
 
@@ -7,6 +9,8 @@ def has(d, key):
         return True
     else:
         return False
+
+
 
 
 class TestApi(APITestCase):
@@ -72,8 +76,59 @@ class TestFeaturesAPI(APITestCase):
             else:
                 self.assertEqual(client_priority, 3)
 
+
+    def test_get_member(self):
+        """Should return a particular feature request"""
+
+        request = self.client.get('/api/features/1/')
+        feature = request.data
+
+        target_date = feature['target_date']
+        self.assertEqual(target_date, '2016-05-01')
+
+        ticket_url = feature['ticket_url']
+        self.assertEqual(ticket_url, 'http://google.com')
+
+        client = feature['client']
+        self.assertEqual(client, 'http://testserver/api/client/1/')
+
+        product_area = feature['product_area']
+        self.assertEqual(product_area, 'http://testserver/api/productarea/1/')
+
+        client_priority = feature['client_priority']
+        self.assertEqual(client_priority, 1)
+
+    def test_post(self):
+        """Should create new feature request"""
+
+        initial_data = dict(
+            title='My Title',
+            description='Please add me',
+            client='http://testserver/api/client/1/',
+            client_priority=4,
+            target_date='2000-01-01',
+            product_area='http://testserver/api/productarea/1/',
+            ticket_url='http://bing.com'
+        )
+
+        # login
+        self.client.force_authenticate(user=self.user)
+
+        post_request = self.client.post('/api/features/', initial_data,
+                                        format='json')
+
+        self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
+
+
     @classmethod
     def setUpTestData(cls):
+
+        # create test user
+        cls.user = User.objects.create_superuser(username='test_user',
+                                                 email='',
+                                                 password='password')
+
+
         c_a = Client.objects.create(name='Client A')
         c_b = Client.objects.create(name='Client B')
         c_c = Client.objects.create(name='Client C')
