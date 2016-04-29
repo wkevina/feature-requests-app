@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xs-12">
         <button @click.prevent="add" class="btn btn-primary">
-          Add Filter
+          Add Filter &nbsp;<span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
     </div>
@@ -66,6 +66,10 @@ export default {
 </script>
 
 <style lang="sass">
+
+ .filter-list {
+     margin: 20px 0;
+ }
 
  .filter-list-group {
      .filter-list-item {
