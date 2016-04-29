@@ -130,6 +130,7 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(matches, 1)
 
 
+
     def test_put(self):
         """Should update an existing feature request"""
 
@@ -154,6 +155,44 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(request.status_code, status.HTTP_200_OK)
         self.assertEqual(changed, request.data)
 
+
+    def test_put_resolves_conflicts(self):
+        """Should change client_priority of other models on conflict"""
+
+        client = Client.objects.get(pk=1)
+
+        first = FeatureRequest.objects.get(client=client, client_priority=1)
+        first_url = "/api/features/{}/".format(first.id)
+        second = FeatureRequest.objects.get(client=client, client_priority=2)
+        third = FeatureRequest.objects.get(client=client, client_priority=3)
+
+        self.assertNotEqual(first.client_priority,
+                            second.client_priority,
+                            third.client_priority)
+
+
+        # Fetch first's serialized form
+        serialized_first = self.client.get(first_url).data
+
+        # Take second's priority
+        serialized_first['client_priority'] = second.client_priority
+        # PUT changes
+        response = self.client.put(first_url, serialized_first)
+
+        # expect 200 status
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.data
+        print(data)
+        self.assertCountEqual(data['conflicted_with'], [second.id, third.id])
+
+        first.refresh_from_db()
+        second.refresh_from_db()
+        third.refresh_from_db()
+
+        self.assertEqual(first.client_priority, 2)
+        self.assertEqual(second.client_priority, 3)
+        self.assertEqual(third.client_priority, 4)
 
     def setUp(self):
         self.client.force_authenticate(user=self.user)
