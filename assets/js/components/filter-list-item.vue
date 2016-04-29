@@ -1,6 +1,6 @@
 <template>
   <li class="list-group-item filter-list-item"
-      v-focus:opt-select  @click="beginEdit">
+      @click="beginEdit">
 
     <!-- Generate select from filterOptions -->
     <select v-show="editing" v-model="model.opt" class="filter-input" tabindex="0"
@@ -27,7 +27,8 @@
 
 
     <!-- Render filter info statically -->
-    <span v-show="!editing" class="filter-value">{{ model.opt.title }}</span>
+    <span v-show="!editing" class="filter-value"
+          v-focus:value-select:opt-select>{{ model.opt.title }}</span>
 
     <span v-show="!editing" class="filter-relation">equals</span>
 
@@ -74,7 +75,6 @@ export default {
                 });
             },
             focusTargets() {
-                console.log(this.targets);
                 for (let target of this.targets) {
                     // Lookup each target in parent
                     const t = this.vm.$els[target];
