@@ -61,3 +61,16 @@ class TestShiftClientPriority(TestCase):
                                            .order_by('client_priority')
 
         assert list(priorities) == list(range(2, 15))
+
+    def test_returns_modified_models(self):
+        """Should return list of all models that were modified"""
+        # Set up data
+
+        models = [add_feature(self.client, self.area, client_priority=i)
+                  for i in range(1,10)]
+
+        query = FeatureRequest.objects.filter(client=self.client)
+
+        modified = shift_client_priority(1, query)
+
+        self.assertCountEqual(models, modified)

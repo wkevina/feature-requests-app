@@ -45,3 +45,5 @@ def shift_client_priority(start, queryset):
     for feature in to_update:
         feature.client_priority = F('client_priority') + 1
         feature.save()
+
+    return to_update
