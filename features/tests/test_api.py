@@ -143,10 +143,20 @@ class TestFeaturesAPI(APITestCase):
             client__pk=1, client_priority=1).count()
         self.assertEqual(matches, 1)
 
+        # Models that should be modified
+        should_be_modified_pks = list(FeatureRequest.objects\
+                                               .filter(client__pk=1)\
+                                               .values_list('id', flat=True))
+
         post_request = self.client.post('/api/features/', initial_data,
                                         format='json')
 
         self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
+
+        # parse x-also-modified into list
+        modified_pks = eval(post_request['X-Also-Modified'])
+        # should have modified
+        self.assertCountEqual(modified_pks, should_be_modified_pks)
 
         matches = FeatureRequest.objects.filter(
             client__pk=1, client_priority=1).count()
