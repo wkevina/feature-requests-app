@@ -125,6 +125,34 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(matches, 1)
 
 
+    def test_post_resolves_conflict(self):
+        """Should change client_priority of other models on conflict"""
+
+        initial_data = dict(
+            title='My Title',
+            description='Please add me',
+            client='/api/client/1/',
+            client_priority=1,
+            target_date='2000-01-01',
+            product_area='/api/productarea/1/',
+            ticket_url='http://bing.com'
+        )
+
+        # Ensure a conflict will occur
+        matches = FeatureRequest.objects.filter(
+            client__pk=1, client_priority=1).count()
+        self.assertEqual(matches, 1)
+
+        post_request = self.client.post('/api/features/', initial_data,
+                                        format='json')
+
+        self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
+
+        matches = FeatureRequest.objects.filter(
+            client__pk=1, client_priority=1).count()
+
+        self.assertEqual(matches, 1)
+
 
     def test_put(self):
         """Should update an existing feature request"""
