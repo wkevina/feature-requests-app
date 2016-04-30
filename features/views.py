@@ -50,7 +50,7 @@ class FeatureRequestViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         try:
             return super(FeatureRequestViewSet, self).update(
-                request, args, kwargs.copy())
+                request, *args, **kwargs.copy())
 
         except ValidationError as ex:
             if NON_FIELD_ERRORS_KEY in ex.detail:
@@ -71,7 +71,7 @@ class FeatureRequestViewSet(viewsets.ModelViewSet):
                     FeatureRequest.objects.filter(client__pk=client_pk))
 
                 response = super(FeatureRequestViewSet, self).update(
-                    request, args, kwargs)
+                    request, *args, **kwargs)
 
                 # Inform client of models that have been modified
                 response['X-Also-Modified'] = [model.id for model in affected]
