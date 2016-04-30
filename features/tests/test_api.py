@@ -101,10 +101,10 @@ class TestFeaturesAPI(APITestCase):
         initial_data = dict(
             title='My Title',
             description='Please add me',
-            client='http://testserver/api/client/1/',
+            client='/api/client/1/',
             client_priority=4,
             target_date='2000-01-01',
-            product_area='http://testserver/api/productarea/1/',
+            product_area='/api/productarea/1/',
             ticket_url='http://bing.com'
         )
 
