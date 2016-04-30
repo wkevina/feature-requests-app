@@ -10,6 +10,7 @@ from .serializers import *
 from .models import FeatureRequest, Client, ProductArea
 from .service import shift_client_priority
 
+
 def get_from_url(url):
     """Return model associated with url"""
     o = urlparse(url)
@@ -20,7 +21,6 @@ def get_from_url(url):
     model = func.cls.serializer_class.Meta.model
 
     return model.objects.get(pk=kwargs['pk'])
-
 
 
 class FeatureRequestViewSet(viewsets.ModelViewSet):
