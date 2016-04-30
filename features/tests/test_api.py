@@ -4,6 +4,7 @@ from rest_framework import status
 
 from ..models import FeatureRequest, Client, ProductArea
 
+
 def has(d, key):
     if d.get(key) is not None:
         return True
@@ -11,9 +12,8 @@ def has(d, key):
         return False
 
 
-
-
 class TestApi(APITestCase):
+    """Test /api/ endpoint"""
     def test_root(self):
         """Test api root URL is accessible"""
 
@@ -32,6 +32,7 @@ class TestApi(APITestCase):
 
 
 class TestFeaturesAPI(APITestCase):
+    """Test /api/features/ endpoints"""
     def test_get_list(self):
         """Should return list of all feature requests"""
 
@@ -57,15 +58,10 @@ class TestFeaturesAPI(APITestCase):
             client = feature['client']
             product_area = feature['product_area']
 
-            if i % 3 == 0:
-                self.assertEqual(client, 'http://testserver/api/client/1/')
-                self.assertEqual(product_area, 'http://testserver/api/productarea/1/')
-            elif i % 3 == 1:
-                self.assertEqual(client, 'http://testserver/api/client/2/')
-                self.assertEqual(product_area, 'http://testserver/api/productarea/2/')
-            else:
-                self.assertEqual(client, 'http://testserver/api/client/3/')
-                self.assertEqual(product_area, 'http://testserver/api/productarea/3/')
+            arg = (i % 3) + 1
+
+            self.assertRegex(client, r"/api/client/{}/$".format(arg))
+            self.assertRegex(product_area, r"/api/productarea/{}/$".format(arg))
 
             client_priority = feature['client_priority']
 
@@ -90,13 +86,14 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(ticket_url, 'http://google.com')
 
         client = feature['client']
-        self.assertEqual(client, 'http://testserver/api/client/1/')
+        self.assertRegex(client, r'/api/client/1/$')
 
         product_area = feature['product_area']
-        self.assertEqual(product_area, 'http://testserver/api/productarea/1/')
+        self.assertRegex(product_area, r'/api/productarea/1/$')
 
         client_priority = feature['client_priority']
         self.assertEqual(client_priority, 1)
+
 
     def test_post(self):
         """Should create new feature request"""
@@ -116,8 +113,6 @@ class TestFeaturesAPI(APITestCase):
 
         self.assertEqual(matches, 0)
 
-        # login
-        self.client.force_authenticate(user=self.user)
 
         post_request = self.client.post('/api/features/', initial_data,
                                         format='json')
@@ -183,7 +178,7 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.data
-        print(data)
+
         self.assertCountEqual(data['conflicted_with'], [second.id, third.id])
 
         first.refresh_from_db()
@@ -194,8 +189,10 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(second.client_priority, 3)
         self.assertEqual(third.client_priority, 4)
 
+
     def setUp(self):
         self.client.force_authenticate(user=self.user)
+
 
     @classmethod
     def setUpTestData(cls):
