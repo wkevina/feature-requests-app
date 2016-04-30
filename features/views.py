@@ -48,58 +48,37 @@ class FeatureRequestViewSet(viewsets.ModelViewSet):
     serializer_class = FeatureRequestSerializer
 
     def update(self, request, *args, **kwargs):
+        try:
+            return super(FeatureRequestViewSet, self).update(
+                request, args, kwargs.copy())
 
-        def _update(serializer, extra={}):
-            """Updates model given a validated serializer instance"""
+        except ValidationError as ex:
+            if NON_FIELD_ERRORS_KEY in ex.detail:
+                instance = self.get_object()
 
-            self.perform_update(serializer)
-            extra.update(serializer.data)
-            return Response(extra)
-
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data,
-                                         partial=partial)
-
-        if serializer.is_valid():
-            return _update(serializer)
-        else:
-            if 'non_field_errors' in serializer.errors:
-
-                # Nitty gritty
-
-                # Make room for update by moving other client_priority's update
-
-                # Take values from request first then fallback to instance
-                # values to accomodate partial updates
-                if 'client' in serializer.data:
-                    client = get_from_url(serializer.data['client'])
+                if 'client' in request.data:
+                    client_pk = pk_from_url(request.data['client'])
                 else:
-                    client = instance.client
+                    client_pk = instance.client.pk
 
-                if 'client_priority' in serializer.data:
-                    priority = int(serializer.data['client_priority'])
+                if 'client_priority' in request.data:
+                    priority = int(request.data['client_priority'])
                 else:
                     priority = instance.client_priority
 
-                # Free up client_priority=priority for client=client set
-                # Returns list of affected models
-                affected = shift_client_priority(priority,
-                                      FeatureRequest.objects.filter(
-                                          client=client))
+                affected = shift_client_priority(
+                    priority,
+                    FeatureRequest.objects.filter(client__pk=client_pk))
 
-                # Rebuild serializer
-                serializer = self.get_serializer(instance, data=request.data,
-                                                 partial=partial)
+                response = super(FeatureRequestViewSet, self).update(
+                    request, args, kwargs)
 
-                serializer.is_valid(raise_exception=True)
+                # Inform client of models that have been modified
+                response['X-Also-Modified'] = [model.id for model in affected]
 
-                conflicted_with = [model.id for model in affected]
-
-                return _update(serializer, dict(conflicted_with=conflicted_with))
+                return response
             else:
-                # have serializer raise exception
-                serializer.is_valid(raise_exception=True)
+                raise
 
 
     def create(self, request, *args, **kwargs):

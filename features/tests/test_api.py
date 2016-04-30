@@ -199,11 +199,6 @@ class TestFeaturesAPI(APITestCase):
         second = FeatureRequest.objects.get(client=client, client_priority=2)
         third = FeatureRequest.objects.get(client=client, client_priority=3)
 
-        self.assertNotEqual(first.client_priority,
-                            second.client_priority,
-                            third.client_priority)
-
-
         # Fetch first's serialized form
         serialized_first = self.client.get(first_url).data
 
@@ -215,9 +210,10 @@ class TestFeaturesAPI(APITestCase):
         # expect 200 status
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        data = response.data
-
-        self.assertCountEqual(data['conflicted_with'], [second.id, third.id])
+        # parse x-also-modified into list
+        modified_pks = eval(response['X-Also-Modified'])
+        # should report modifying second and third
+        self.assertCountEqual(modified_pks, [second.id, third.id])
 
         first.refresh_from_db()
         second.refresh_from_db()
