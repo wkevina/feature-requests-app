@@ -83,7 +83,9 @@ class FeatureRequestViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            return super(FeatureRequestViewSet, self).create(request, args, kwargs)
+            return super(FeatureRequestViewSet, self).create(
+                request, *args, **kwargs)
+
         except ValidationError as ex:
             if NON_FIELD_ERRORS_KEY in ex.detail:
                 client_pk = pk_from_url(request.data['client'])
