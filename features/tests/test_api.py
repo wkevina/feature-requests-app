@@ -224,6 +224,41 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(third.client_priority, 4)
 
 
+    def test_patch_resolves_conflicts(self):
+        """Should change client_priority of other models on conflict"""
+
+        client = Client.objects.get(pk=1)
+
+        first = FeatureRequest.objects.get(client=client, client_priority=1)
+        first_url = "/api/features/{}/".format(first.id)
+        second = FeatureRequest.objects.get(client=client, client_priority=2)
+        third = FeatureRequest.objects.get(client=client, client_priority=3)
+
+        # Fetch first's serialized form
+        partial_first = {}
+
+        # Take second's priority
+        partial_first['client_priority'] = second.client_priority
+        # PATCH partial changes
+        response = self.client.patch(first_url, partial_first)
+
+        # expect 200 status
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # parse x-also-modified into list
+        modified_pks = eval(response['X-Also-Modified'])
+        # should report modifying second and third
+        self.assertCountEqual(modified_pks, [second.id, third.id])
+
+        first.refresh_from_db()
+        second.refresh_from_db()
+        third.refresh_from_db()
+
+        self.assertEqual(first.client_priority, 2)
+        self.assertEqual(second.client_priority, 3)
+        self.assertEqual(third.client_priority, 4)
+
+
     def setUp(self):
         self.client.force_authenticate(user=self.user)
 
