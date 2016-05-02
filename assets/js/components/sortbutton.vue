@@ -3,7 +3,16 @@
       @click="toggle"
       class="btn"
       :class="{'btn-primary': activated}"
-  >{{ title }}</button>
+  >{{ title }}
+    <template v-if="activated">
+      &nbsp;
+      <span :class="{
+                   'glyphicon glyphicon-sort-by-alphabet': !sortReverse,
+                   'glyphicon glyphicon-sort-by-alphabet-alt': sortReverse,
+                   }">
+      </span>
+    </template>
+  </button>
 </template>
 
 <script>
