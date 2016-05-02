@@ -4,7 +4,7 @@ from rest_framework import routers
 
 from .views import FeatureRequestViewSet, ClientViewSet, ProductAreaViewSet
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 
 router.register(r'features', FeatureRequestViewSet)
 router.register(r'client', ClientViewSet)

@@ -36,7 +36,7 @@ class TestFeaturesAPI(APITestCase):
     def test_get_list(self):
         """Should return list of all feature requests"""
 
-        request = self.client.get('/api/features/')
+        request = self.client.get('/api/features')
 
         response = request.data
 
@@ -60,8 +60,8 @@ class TestFeaturesAPI(APITestCase):
 
             arg = (i % 3) + 1
 
-            self.assertRegex(client, r"/api/client/{}/$".format(arg))
-            self.assertRegex(product_area, r"/api/productarea/{}/$".format(arg))
+            self.assertRegex(client, r"/api/client/{}$".format(arg))
+            self.assertRegex(product_area, r"/api/productarea/{}$".format(arg))
 
             client_priority = feature['client_priority']
 
@@ -76,7 +76,7 @@ class TestFeaturesAPI(APITestCase):
     def test_get_member(self):
         """Should return a particular feature request"""
 
-        request = self.client.get('/api/features/1/')
+        request = self.client.get('/api/features/1')
         feature = request.data
 
         target_date = feature['target_date']
@@ -86,10 +86,10 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(ticket_url, 'http://google.com')
 
         client = feature['client']
-        self.assertRegex(client, r'/api/client/1/$')
+        self.assertRegex(client, r'/api/client/1$')
 
         product_area = feature['product_area']
-        self.assertRegex(product_area, r'/api/productarea/1/$')
+        self.assertRegex(product_area, r'/api/productarea/1$')
 
         client_priority = feature['client_priority']
         self.assertEqual(client_priority, 1)
@@ -101,10 +101,10 @@ class TestFeaturesAPI(APITestCase):
         initial_data = dict(
             title='My Title',
             description='Please add me',
-            client='/api/client/1/',
+            client='/api/client/1',
             client_priority=4,
             target_date='2000-01-01',
-            product_area='/api/productarea/1/',
+            product_area='/api/productarea/1',
             ticket_url='http://bing.com'
         )
 
@@ -114,7 +114,7 @@ class TestFeaturesAPI(APITestCase):
         self.assertEqual(matches, 0)
 
 
-        post_request = self.client.post('/api/features/', initial_data,
+        post_request = self.client.post('/api/features', initial_data,
                                         format='json')
 
         self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
@@ -131,10 +131,10 @@ class TestFeaturesAPI(APITestCase):
         initial_data = dict(
             title='My Title',
             description='Please add me',
-            client='/api/client/1/',
+            client='/api/client/1',
             client_priority=1,
             target_date='2000-01-01',
-            product_area='/api/productarea/1/',
+            product_area='/api/productarea/1',
             ticket_url='http://bing.com'
         )
 
@@ -148,7 +148,7 @@ class TestFeaturesAPI(APITestCase):
                                                .filter(client__pk=1)\
                                                .values_list('id', flat=True))
 
-        post_request = self.client.post('/api/features/', initial_data,
+        post_request = self.client.post('/api/features', initial_data,
                                         format='json')
 
         self.assertEqual(post_request.status_code, status.HTTP_201_CREATED)
@@ -169,7 +169,7 @@ class TestFeaturesAPI(APITestCase):
 
         model = FeatureRequest.objects.get(pk=1)
 
-        url = '/api/features/{}/'.format(model.id)
+        url = '/api/features/{}'.format(model.id)
 
         fetched = self.client.get(url).data
         self.assertEqual(fetched['client_priority'], model.client_priority)
@@ -195,7 +195,7 @@ class TestFeaturesAPI(APITestCase):
         client = Client.objects.get(pk=1)
 
         first = FeatureRequest.objects.get(client=client, client_priority=1)
-        first_url = "/api/features/{}/".format(first.id)
+        first_url = "/api/features/{}".format(first.id)
         second = FeatureRequest.objects.get(client=client, client_priority=2)
         third = FeatureRequest.objects.get(client=client, client_priority=3)
 
@@ -230,7 +230,7 @@ class TestFeaturesAPI(APITestCase):
         client = Client.objects.get(pk=1)
 
         first = FeatureRequest.objects.get(client=client, client_priority=1)
-        first_url = "/api/features/{}/".format(first.id)
+        first_url = "/api/features/{}".format(first.id)
         second = FeatureRequest.objects.get(client=client, client_priority=2)
         third = FeatureRequest.objects.get(client=client, client_priority=3)
 
