@@ -117,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

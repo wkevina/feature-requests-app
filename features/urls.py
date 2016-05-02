@@ -14,7 +14,7 @@ router.register(r'productarea', ProductAreaViewSet)
 urlpatterns = [
     # Main page only viewable if logged in
     url(r'^$', login_required(TemplateView.as_view(
-        template_name='features/index.html'))),
+        template_name='features/index.html')), name='index'),
     url(r'^api/', include(router.urls)),
     url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
