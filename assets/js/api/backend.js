@@ -7,10 +7,26 @@ This module defines endpoints and access functions the features app REST service
 /* window.fetch polyfill */
 import 'whatwg-fetch';
 import restful, { fetchBackend } from 'restful.js';
+import { header as csrfHeader } from '../util/csrf.js';
 
 
 /* Configure restful with fetch backend */
 const api = restful('/api', fetchBackend(fetch));
+
+/* Ensure cookies are sent with requests */
+api.addRequestInterceptor(function (config) {
+    const { headers, method } = config;
+
+    Object.assign(headers, csrfHeader());
+
+    console.log(headers);
+    console.log(method);
+
+    return {
+        credentials: 'same-origin',
+        headers
+    };
+});
 
 const features = api.all('features');
 

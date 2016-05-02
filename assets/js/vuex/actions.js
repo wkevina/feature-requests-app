@@ -48,6 +48,13 @@ function fetchFeatures({ dispatch }) {
     backend.endpoints.features.getAll().then(handler);
 };
 
+async function postFeature({ dispatch }, data) {
+    const post = backend.endpoints.features.post;
+
+    let response = await post(data);
+    console.log(response);
+}
+
 function fetchClients({ dispatch }) {
     backend.endpoints.client.getAll().then((response) => {
         if (statusOk(response)) {
@@ -89,5 +96,6 @@ function removeFilter({ dispatch }, filter) {
 }
 
 export {fetchFeatures, fetchClients, fetchProductAreas,
+        postFeature,
         setSort,
         addEmptyFilter, updateFilter, removeFilter};

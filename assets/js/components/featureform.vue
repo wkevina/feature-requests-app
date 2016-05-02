@@ -104,6 +104,7 @@
 import 'nodep-date-input-polyfill';
 import moment from 'moment';
 import {clients, productAreas} from '../vuex/getters.js';
+import { postFeature } from '../vuex/actions.js';
 
 export default {
     data() {
@@ -124,6 +125,9 @@ export default {
         getters: {
             clients,
             productAreas
+        },
+        actions: {
+            postFeature
         }
     },
     computed: {
@@ -153,6 +157,7 @@ export default {
         onSubmit() {
             // Do nothing useful
             console.log(JSON.stringify(this.model));
+            console.log(this.postFeature(this.model));
         },
         /**
            Custom date validator
