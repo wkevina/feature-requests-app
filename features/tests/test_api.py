@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from rest_framework import status
 
+from .usermixin import UserMixin
 from ..models import FeatureRequest, Client, ProductArea
 
 
@@ -31,7 +32,7 @@ class TestApi(APITestCase):
         self.assertTrue(has(data, 'client'))
 
 
-class TestFeaturesAPI(APITestCase):
+class TestFeaturesAPI(UserMixin, APITestCase):
     """Test /api/features/ endpoints"""
     def test_get_list(self):
         """Should return list of all feature requests"""
@@ -260,17 +261,12 @@ class TestFeaturesAPI(APITestCase):
 
 
     def setUp(self):
-        self.client.force_authenticate(user=self.user)
+        self.client.force_authenticate(user=self.super_user)
 
 
     @classmethod
     def setUpTestData(cls):
-
-        # create test user
-        cls.user = User.objects.create_superuser(username='test_user',
-                                                 email='',
-                                                 password='password')
-
+        super(TestFeaturesAPI, cls).setUpTestData()
 
         c_a = Client.objects.create(name='Client A')
         c_b = Client.objects.create(name='Client B')

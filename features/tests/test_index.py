@@ -1,7 +1,25 @@
 from django.test import TestCase
+from .usermixin import UserMixin
 
-class TestIndex(TestCase):
+class TestIndex(UserMixin, TestCase):
     """Verify the index page is served properly"""
+
+    def test_login_required(self):
+        """Should redirect to login page if not authenticated"""
+
+        # Ensure no user is authenticated
+        self.client.logout()
+
+        # Change LOGIN_URL ass actual value doesn't matter
+        with self.settings(LOGIN_URL='/test_login'):
+            response = self.client.get('/', follow=False)
+
+            self.assertRedirects(
+                response, '/test_login?next=/', target_status_code=404)
+
+
+    def setUp(self):
+        self.client.force_login(user=self.super_user)
 
     def test_root(self):
         # Fetch page from '/'
