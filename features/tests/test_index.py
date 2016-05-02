@@ -17,10 +17,6 @@ class TestIndex(UserMixin, TestCase):
             self.assertRedirects(
                 response, '/test_login?next=/', target_status_code=404)
 
-
-    def setUp(self):
-        self.client.force_login(user=self.super_user)
-
     def test_root(self):
         # Fetch page from '/'
         reponse = self.client.get('/')
@@ -44,3 +40,17 @@ class TestIndex(UserMixin, TestCase):
         if response.status_code == 200:
             if response.templates:
                 self.assertNotEqual(response.templates[0].name, 'features/index.html')
+
+    def test_csrf_cookie_set(self):
+        """Should set csrf token on client"""
+
+        response = self.client.get('/')
+
+        self.assertIn('csrftoken', self.client.cookies)
+
+        self.client.logout()
+
+        self.assertNotIn('csrftoken', self.client.cookies)
+
+    def setUp(self):
+        self.client.force_login(user=self.super_user)
