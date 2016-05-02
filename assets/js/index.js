@@ -34,6 +34,15 @@ router.map({
     }
 });
 
+router.redirect({
+    '*': '/list/1'
+});
+
+router.alias({
+    '/list': '/list/1'
+});
+
+
 /* Bootstrap the application */
 router.start({
     template: '<div><app></app></div>',
@@ -48,11 +57,3 @@ router.start({
         this.fetchProductAreas();
     }
 }, '#app');
-
-router.redirect({
-    '*': '/list/1'
-});
-
-router.alias({
-    '/list': '/list/1'
-});
