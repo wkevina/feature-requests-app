@@ -3,7 +3,25 @@
 
 var path = require('path');
 
-module.exports = function(config) {
+// Reuse main webpack config
+var webpack = require('./webpack.config.js');
+Object.assign(webpack, {
+    /* Begin sinon workaround nonsense */
+    resolve: {
+        alias: { sinon: 'sinon/pkg/sinon' }
+    },
+
+    noParse: [/sinon/],
+
+    devtool: 'inline-source-map'
+});
+
+webpack.module.loaders.push({
+    test: /sinon.*\.js$/,
+    loader: "imports?define=>false,require=>false"
+});
+
+module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -23,7 +41,6 @@ module.exports = function(config) {
             'node_modules/babel-polyfill/dist/polyfill.js',
 
             'assets/tests/index.js'
-
         ],
 
 
@@ -35,69 +52,7 @@ module.exports = function(config) {
         },
 
 
-        webpack: {
-            // karma watches the test entry points
-            // (you don't need to specify the entry option)
-            // webpack watches dependencies
-
-            // webpack configuration
-            // output: {
-            //     path: path.resolve(__dirname, './assets/bundles'),
-            //     filename: '[name]-[hash]-test.js'
-            // },
-            resolveLoader: {
-                root: path.join(__dirname, 'node_modules')
-            },
-
-            /* Begin sinon workaround nonsense */
-            resolve: {
-                alias: { sinon: 'sinon/pkg/sinon' }
-            },
-
-            noParse: [/sinon/],
-
-            plugins: [
-            ],
-
-            module: {
-                loaders: [
-                    {
-                        test: /\.vue$/,
-                        loader: 'vue'
-                    },
-                    {
-                        test: /\.js$/,
-                        loader: 'babel',
-                        exclude: /node_modules/,
-                        query: {
-                            presets: ['es2015']
-                        }
-                    },
-                    {
-                        test: /\.json$/,
-                        loader: 'json'
-                    },
-                    {
-                        test: /\.html$/,
-                        loader: 'vue-html'
-                    },
-                    {
-                        test: /\.(png|jpg|gif|svg)$/,
-                        loader: 'url',
-                        query: {
-                            limit: 10000,
-                            name: '[name].[ext]?[hash]'
-                        }
-                    },
-                    {
-                        test: /sinon.*\.js$/,
-                        loader: "imports?define=>false,require=>false"
-                    }
-                ]
-            },
-            devtool: 'inline-source-map'
-        },
-
+        webpack: webpack,
 
         webpackMiddleware: {
             // webpack-dev-middleware configuration
