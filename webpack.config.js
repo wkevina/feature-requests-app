@@ -7,6 +7,7 @@ var path = require('path'),
 module.exports = {
   entry: [
     './assets/js/index.js',
+    'babel-polyfill/dist/polyfill.js',
     './assets/js/common.js'
   ],
   output: {
