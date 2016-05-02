@@ -13,7 +13,7 @@ function collection(endpoint, base='') {
 }
 
 /* Return path part of url */
-function strip (url) {
+function strip(url) {
     return url.replace(/^http:\/\/localhost:8000/, '');
 }
 

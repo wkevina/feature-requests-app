@@ -1,6 +1,6 @@
 import store from '../../js/vuex/store.js';
 
-describe('store', function() {
+describe('store', function () {
     it('should exist', () => {
         expect(store).toBeDefined();
     });
@@ -17,11 +17,11 @@ describe('store', function() {
         // Is defined
         expect(store.dispatch).toBeDefined();
         // Is a function
-        expect(typeof store.dispatch).toEqual("function");
+        expect(typeof store.dispatch).toEqual('function');
     });
 
-    describe('mutations', function() {
-        describe('FEATURES_REPLACE', function() {
+    describe('mutations', function () {
+        describe('FEATURES_REPLACE', function () {
             it('should replace store.state.features', () => {
                 const newGuy = [{}, {}, {}];
 
@@ -31,7 +31,7 @@ describe('store', function() {
             });
         });
 
-        describe('FEATURES_APPEND', function() {
+        describe('FEATURES_APPEND', function () {
             it('should append items from array to store.state.features', () => {
                 const newGuys = [{}, {}, {}],
                       oldLength = store.state.features.length;
@@ -39,15 +39,15 @@ describe('store', function() {
                 store.dispatch('FEATURES_APPEND', newGuys);
                 expect(store.state.features.length).toBe(oldLength + newGuys.length);
 
-                newGuys.forEach(function(newGuy) {
-                    expect(store.state.features.find(function(element) {
+                newGuys.forEach(function (newGuy) {
+                    expect(store.state.features.find(function (element) {
                         return element === newGuy;
                     })).toBe(newGuy);
                 });
             });
         });
 
-        describe('CLIENTS_REPLACE', function() {
+        describe('CLIENTS_REPLACE', function () {
             it('should replace store.state.clients', () => {
                 const newGuys = [{}, {}, {}];
 
@@ -56,7 +56,7 @@ describe('store', function() {
             });
         });
 
-        describe('PRODUCTAREAS_REPLACE', function() {
+        describe('PRODUCTAREAS_REPLACE', function () {
             it('should replace store.state.clients', () => {
                 const newGuys = [{}, {}, {}];
 
@@ -65,8 +65,8 @@ describe('store', function() {
             });
         });
 
-        describe('SORT_SET_PROPERTY', function() {
-            it('should set store.state.sort.by', function() {
+        describe('SORT_SET_PROPERTY', function () {
+            it('should set store.state.sort.by', function () {
                 const property = 'sorting_property';
 
                 store.dispatch('SORT_SET_PROPERTY', property);
@@ -74,8 +74,8 @@ describe('store', function() {
             });
         });
 
-        describe('SORT_SET_REVERSE', function() {
-            it('should set store.state.sort.reverse', function() {
+        describe('SORT_SET_REVERSE', function () {
+            it('should set store.state.sort.reverse', function () {
 
                 store.dispatch('SORT_SET_REVERSE', true);
                 expect(store.state.sort.reverse).toBe(true);
@@ -85,8 +85,8 @@ describe('store', function() {
             });
         });
 
-        describe('FILTER_APPEND', function() {
-            it('should add filter to filters', function() {
+        describe('FILTER_APPEND', function () {
+            it('should add filter to filters', function () {
 
                 const testFilter = {};
                 const notInList = {};
@@ -108,8 +108,8 @@ describe('store', function() {
             });
         });
 
-        describe('FILTER_REMOVE', function() {
-            it('should remove filter from filters', function() {
+        describe('FILTER_REMOVE', function () {
+            it('should remove filter from filters', function () {
 
                 const testFilter = {};
                 const anotherFilter = {};
@@ -129,8 +129,8 @@ describe('store', function() {
             });
         });
 
-        describe('FILTER_RESET', function() {
-            it('should remove all filters', function() {
+        describe('FILTER_RESET', function () {
+            it('should remove all filters', function () {
                 // manually append items
                 store.state.filters.push({});
                 store.state.filters.push({});
@@ -141,9 +141,9 @@ describe('store', function() {
             });
         });
 
-        describe('FILTER_MODIFY', function() {
-            it('should change properties of filter', function() {
-                const filter = {prop: 'test', value: 'test'};
+        describe('FILTER_MODIFY', function () {
+            it('should change properties of filter', function () {
+                const filter = { prop: 'test', value: 'test' };
 
                 // manually append items
                 store.state.filters.push(filter);
@@ -158,9 +158,9 @@ describe('store', function() {
             });
         });
 
-        describe('FILTER_REMOVE', function() {
-            it('should remove a particular filter', function() {
-                const filter = {prop: 'test', value: 'test'};
+        describe('FILTER_REMOVE', function () {
+            it('should remove a particular filter', function () {
+                const filter = { prop: 'test', value: 'test' };
 
                 // manually append items
                 store.state.filters.push(filter);

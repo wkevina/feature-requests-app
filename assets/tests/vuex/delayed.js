@@ -7,7 +7,7 @@
  After the delay, `wrapup` callback is called.
  */
 function delayed(setup, wrapup, delay=200) {
-    const promise = new Promise(function(resolve) {
+    const promise = new Promise(function (resolve) {
         setup();
         setTimeout(resolve, delay);
     }).then(wrapup);

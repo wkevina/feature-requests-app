@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueForm from 'vue-form';
-import {sync} from 'vuex-router-sync';
+import { sync } from 'vuex-router-sync';
 
 import store from './vuex/store.js';
 import * as actions from './vuex/actions.js';
@@ -38,7 +38,7 @@ router.map({
 router.start({
     template: '<div><app></app></div>',
     store,
-    components: {App},
+    components: { App },
     vuex: {
         actions
     },

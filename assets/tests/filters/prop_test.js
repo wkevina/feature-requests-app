@@ -1,7 +1,7 @@
 import prop from '../../js/filters/prop.js';
 
-describe('prop', function() {
-    it('should return nested property if found', function() {
+describe('prop', function () {
+    it('should return nested property if found', function () {
         let ob = {
             a: {
                 b: 'c',
@@ -18,7 +18,7 @@ describe('prop', function() {
 
     });
 
-    it('should return None if not found', function() {
+    it('should return None if not found', function () {
         let ob = {
             a: {
                 d: undefined
@@ -32,7 +32,7 @@ describe('prop', function() {
         expect(prop(ob, 'a.d')).toEqual('None');
     });
 
-    it('should return third argument if not found', function() {
+    it('should return third argument if not found', function () {
         let ob = {
             a: {
                 b: 'c'

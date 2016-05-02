@@ -3,13 +3,13 @@ function mockBackend() {
     return {
         endpoints:  {
             features: {
-                getAll: function() {}
+                getAll: function () {}
             },
             client: {
-                getAll: function() {}
+                getAll: function () {}
             },
             productArea: {
-                getAll: function() {}
+                getAll: function () {}
             }
         }
     };
@@ -25,6 +25,7 @@ function mockResponse(payload, status=200) {
                 }
             };
         },
+
         statusCode() {
             return status;
         }

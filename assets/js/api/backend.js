@@ -6,7 +6,7 @@ This module defines endpoints and access functions the features app REST service
 
 /* window.fetch polyfill */
 import 'whatwg-fetch';
-import restful, {fetchBackend} from 'restful.js';
+import restful, { fetchBackend } from 'restful.js';
 
 
 /* Configure restful with fetch backend */

@@ -1,9 +1,9 @@
-import {mockState} from './mock.js';
+import { mockState } from './mock.js';
 import * as getters from '../../js/vuex/getters.js';
 
 
-describe('features', function(){
-    it('should return clients array', function() {
+describe('features', function () {
+    it('should return clients array', function () {
         const state = {
             features: [{}, {}, {}]
         };
@@ -13,8 +13,8 @@ describe('features', function(){
     });
 });
 
-describe('clients', function(){
-    it('should return clients array', function() {
+describe('clients', function () {
+    it('should return clients array', function () {
         const state = {
             clients: [{}, {}, {}]
         };
@@ -25,8 +25,8 @@ describe('clients', function(){
 });
 
 
-describe('productAreas', function(){
-    it('should return productAreas array', function() {
+describe('productAreas', function () {
+    it('should return productAreas array', function () {
         const state = {
             productAreas: [{}, {}, {}]
         };
@@ -36,15 +36,15 @@ describe('productAreas', function(){
     });
 });
 
-describe('expandedFeatures', function(){
-    it('should return array of features with client and product_area replaced with representative objects', function() {
+describe('expandedFeatures', function () {
+    it('should return array of features with client and product_area replaced with representative objects', function () {
         const state = mockState();
 
         const got = getters.expandedFeatures(state);
 
         expect(got.length).toBe(3);
 
-        got.forEach(function(el, index) {
+        got.forEach(function (el, index) {
             expect(el.title).toEqual(state.features[index].title);
             expect(el.client).toEqual(state.clients[index]);
             expect(el.product_area).toEqual(state.productAreas[index]);
@@ -52,8 +52,8 @@ describe('expandedFeatures', function(){
     });
 });
 
-describe('sortedFeatures', function() {
-    it('should sort features by state.sort props', function() {
+describe('sortedFeatures', function () {
+    it('should sort features by state.sort props', function () {
         const state = mockState();
         state.sort = {
             by: null,
@@ -87,8 +87,8 @@ describe('sortedFeatures', function() {
     });
 });
 
-describe('sortProperty', function() {
-    it('should return sorting key', function() {
+describe('sortProperty', function () {
+    it('should return sorting key', function () {
         const state = {};
         state.sort = {
             by: 'sort_property'
@@ -103,8 +103,8 @@ describe('sortProperty', function() {
     });
 });
 
-describe('sortReverse', function() {
-    it('should return sorting key', function() {
+describe('sortReverse', function () {
+    it('should return sorting key', function () {
         const state = {};
         state.sort = {
             reverse: false
@@ -119,9 +119,9 @@ describe('sortReverse', function() {
     });
 });
 
-describe('filterList', function() {
-    it('should return filters array', function() {
-        const state = {filters: []};
+describe('filterList', function () {
+    it('should return filters array', function () {
+        const state = { filters: [] };
 
         const got = getters.filterList(state);
 
@@ -129,11 +129,11 @@ describe('filterList', function() {
     });
 });
 
-describe('filterOptions', function() {
-    it('should return array describing filters', function() {
+describe('filterOptions', function () {
+    it('should return array describing filters', function () {
         const state = {
-            clients: [{name: 'Client A'}, {name: 'Client B'}],
-            productAreas: [{name: 'Sales'}, {name: 'Billing'}]
+            clients: [{ name: 'Client A' }, { name: 'Client B' }],
+            productAreas: [{ name: 'Sales' }, { name: 'Billing' }]
         };
 
         const got = getters.filterOptions(state);

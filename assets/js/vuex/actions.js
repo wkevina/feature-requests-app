@@ -17,12 +17,12 @@ function statusOk(r) {
     return r.statusCode && r.statusCode() == 200;
 }
 
-function fetchFeatures({dispatch}) {
+function fetchFeatures({ dispatch }) {
     const getAll = backend.endpoints.features.getAll;
 
     const handler = (response) => {
 
-       if (statusOk(response)) {
+        if (statusOk(response)) {
 
             const data = response.body().data();
             const newFeatures = data.results;
@@ -48,7 +48,7 @@ function fetchFeatures({dispatch}) {
     backend.endpoints.features.getAll().then(handler);
 };
 
-function fetchClients({dispatch}) {
+function fetchClients({ dispatch }) {
     backend.endpoints.client.getAll().then((response) => {
         if (statusOk(response)) {
             dispatch('CLIENTS_REPLACE', unwrapResponse(response));
@@ -56,7 +56,7 @@ function fetchClients({dispatch}) {
     });
 }
 
-function fetchProductAreas({dispatch}) {
+function fetchProductAreas({ dispatch }) {
     backend.endpoints.productArea.getAll().then((response) => {
         if (statusOk(response)) {
             dispatch('PRODUCTAREAS_REPLACE', unwrapResponse(response));
@@ -64,7 +64,7 @@ function fetchProductAreas({dispatch}) {
     });
 }
 
-function setSort({dispatch}, {property, reverse}) {
+function setSort({ dispatch }, { property, reverse }) {
     if (property !== undefined) {
         dispatch('SORT_SET_PROPERTY', property);
     }
@@ -74,7 +74,7 @@ function setSort({dispatch}, {property, reverse}) {
     }
 }
 
-function addEmptyFilter({dispatch}) {
+function addEmptyFilter({ dispatch }) {
     dispatch('FILTER_APPEND', {
         opt: null, value: null
     });
