@@ -20,15 +20,15 @@ function strip(url) {
 /*
  Mock api using fetch-mock
  */
-export default function (fetchMock) {
+export default function mockApi(fetchMock) {
     // Intercept all calls to fetch
     fetchMock.greed = 'bad';
 
-    fetchMock.mock(collection('features'), features);
-    fetchMock.mock(collection('client'), client);
-    fetchMock.mock(collection('productarea'), productArea);
+    fetchMock.mock(collection('features'), 'GET', features);
+    fetchMock.mock(collection('client'), 'GET', client);
+    fetchMock.mock(collection('productarea'), 'GET', productArea);
 
-    const setup = (el) => fetchMock.mock(strip(el.url), el);
+    const setup = (el) => fetchMock.mock(strip(el.url), 'GET', el);
 
     features.results.forEach(setup);
     client.results.forEach(setup);

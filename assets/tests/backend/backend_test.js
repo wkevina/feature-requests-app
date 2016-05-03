@@ -102,7 +102,7 @@ describe('features endpoints', function () {
             });
 
             features.post(post).then(function (response) {
-                expect(fetchMock.called(url).toBe(true));
+                expect(fetchMock.called(url)).toBe(true);
                 expect(response.body().data()).toEqual(body);
                 expect(response.statusCode()).toEqual(201);
             });
