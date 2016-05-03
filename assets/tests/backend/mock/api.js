@@ -28,21 +28,9 @@ export default function (fetchMock) {
     fetchMock.mock(collection('client'), client);
     fetchMock.mock(collection('productarea'), productArea);
 
-    features.results.forEach((feature) => {
-        const url = strip(feature.url);
+    const setup = (el) => fetchMock.mock(strip(el.url), el);
 
-        fetchMock.mock(url, feature);
-    });
-
-    client.results.forEach((client) => {
-        const url = strip(client.url);
-
-        fetchMock.mock(url, client);
-    });
-
-    productArea.results.forEach((area) => {
-        const url = strip(area.url);
-
-        fetchMock.mock(url, area);
-    });
+    features.results.forEach(setup);
+    client.results.forEach(setup);
+    productArea.results.forEach(setup);
 }
