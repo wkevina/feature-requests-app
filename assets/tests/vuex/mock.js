@@ -16,7 +16,7 @@ function mockBackend() {
 }
 
 /* Mock response api/backend.js endpoints */
-function mockResponse(payload, status=200) {
+function mockResponse(payload, status=200, headers={}) {
     return {
         body() {
             return {
@@ -28,6 +28,10 @@ function mockResponse(payload, status=200) {
 
         statusCode() {
             return status;
+        },
+
+        headers() {
+            return headers;
         }
     };
 }
