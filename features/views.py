@@ -47,6 +47,23 @@ class FeatureRequestViewSet(viewsets.ModelViewSet):
     queryset = FeatureRequest.objects.all()
     serializer_class = FeatureRequestSerializer
 
+    def get_queryset(self):
+        params = self.request.query_params
+        key = None
+
+        # Allow filtering by id
+        # Supports list
+        if 'id[]' in params:
+            key = 'id[]'
+        elif 'id' in params:
+            key = 'id'
+
+        if key:
+            id_list = params.getlist(key)
+            return FeatureRequest.objects.filter(id__in=id_list)
+
+        return FeatureRequest.objects.all()
+
     def update(self, request, *args, **kwargs):
         try:
             return super(FeatureRequestViewSet, self).update(

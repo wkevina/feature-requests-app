@@ -73,6 +73,26 @@ class TestFeaturesAPI(UserMixin, APITestCase):
             else:
                 self.assertEqual(client_priority, 3)
 
+    def test_get_filter(self):
+        """Should return list filtered by id query param """
+
+        # Filter for 1
+        request_one = self.client.get('/api/features?id=1')
+        self.assertEqual(request_one.status_code, 200)
+
+        response = request_one.data
+
+        self.assertEqual(response['count'], 1)
+        self.assertEqual(len(response['results']), 1)
+
+        # Filter for many
+        request_many = self.client.get('/api/features?id[]=4&id[]=7&id[]=2')
+        self.assertEqual(request_many.status_code, 200)
+
+        response = request_many.data
+
+        self.assertEqual(response['count'], 3)
+        self.assertEqual(len(response['results']), 3)
 
     def test_get_member(self):
         """Should return a particular feature request"""
