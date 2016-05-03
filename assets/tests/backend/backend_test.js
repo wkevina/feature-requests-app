@@ -55,7 +55,7 @@ describe('features endpoints', function () {
 
         });
 
-        it('should fetch /api/features/?page=1', function () {
+        it('should fetch /api/features?page=1', function () {
 
             return features.getAll({ page: 1 }).then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/features?page=1');
