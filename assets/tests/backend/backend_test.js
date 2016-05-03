@@ -13,10 +13,12 @@ import mockApi from './mock/api.js';
 require('whatwg-fetch');
 
 const fetchMock = require('fetch-mock');
+
 // Tiny hack to make sure fetch is actually mocked
 mockApi(fetchMock);
 
 const backend = require('../../js/api/backend.js').default;
+
 // Destructure members
 const { api, endpoints } = backend;
 const { features, client, productArea } = endpoints;
@@ -33,7 +35,7 @@ describe('fetchMock', () => {
 
 function grabId(url) {
     // Return {id} portion of /api/endpoint/{id}/
-    return /.+\/([0-9]+)\/$/.exec(url)[1];
+    return /.+\/([0-9]+)\/?$/.exec(url)[1];
 }
 
 describe('features endpoints', function () {
@@ -49,6 +51,7 @@ describe('features endpoints', function () {
 
             return features.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/features');
+
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(featuresFixture);
             });
@@ -59,6 +62,7 @@ describe('features endpoints', function () {
 
             return features.getAll({ page: 1 }).then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/features?page=1');
+
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(featuresFixture);
             });
@@ -74,7 +78,7 @@ describe('features endpoints', function () {
                 const id = grabId(item.url);
 
                 return features.get(id).then(function (response) {
-                    let expectedUrl = RegExp(`/api/features/${id}/?$`);
+                    let expectedUrl = `/api/features/${id}`;
                     expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });
@@ -105,6 +109,7 @@ describe('client endpoints', function () {
 
             return client.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/client');
+
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(clientFixture);
             });
@@ -121,7 +126,7 @@ describe('client endpoints', function () {
                 const id = grabId(item.url);
 
                 return client.get(id).then(function (response) {
-                    let expectedUrl = RegExp(`/api/client/${id}/?$`);
+                    let expectedUrl = `/api/client/${id}`;
                     expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });
@@ -149,6 +154,7 @@ describe('productArea endpoints', function () {
 
             return productArea.getAll().then((response) => {
                 expect(fetchMock.lastUrl()).toEqual('/api/productarea');
+
                 // Response body should match the fixture
                 expect(response.body().data()).toEqual(productAreaFixture);
             });
@@ -165,7 +171,7 @@ describe('productArea endpoints', function () {
                 const id = grabId(item.url);
 
                 return productArea.get(id).then(function (response) {
-                    let expectedUrl = RegExp(`/api/productarea/${id}/?$`);
+                    let expectedUrl = `/api/productarea/${id}`;
                     expect(fetchMock.called(expectedUrl)).toBe(true);
                     expect(response.body().data()).toEqual(item);
                 });

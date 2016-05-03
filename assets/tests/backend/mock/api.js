@@ -31,18 +31,18 @@ export default function (fetchMock) {
     features.results.forEach((feature) => {
         const url = strip(feature.url);
 
-        fetchMock.mock(RegExp(url + '?$'), feature);
+        fetchMock.mock(url, feature);
     });
 
     client.results.forEach((client) => {
         const url = strip(client.url);
 
-        fetchMock.mock(RegExp(url + '?$'), client);
+        fetchMock.mock(url, client);
     });
 
     productArea.results.forEach((area) => {
         const url = strip(area.url);
 
-        fetchMock.mock(RegExp(url + '?$'), area);
+        fetchMock.mock(url, area);
     });
 }
