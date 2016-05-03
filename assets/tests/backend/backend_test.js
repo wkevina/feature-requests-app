@@ -87,6 +87,27 @@ describe('features endpoints', function () {
             return Promise.all(fetches);
         });
     });
+
+    describe('post', function () {
+        it('should post to /api/features', function () {
+            const url = '/api/features';
+            const post = {};
+            const body = {
+                data: []
+            };
+
+            fetchMock.mock(url, 'POST', {
+                body,
+                status: 201
+            });
+
+            features.post(post).then(function (response) {
+                expect(fetchMock.called(url).toBe(true));
+                expect(response.body().data()).toEqual(body);
+                expect(response.statusCode()).toEqual(201);
+            });
+        });
+    });
 });
 
 

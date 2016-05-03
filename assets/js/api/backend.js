@@ -19,9 +19,6 @@ api.addRequestInterceptor(function (config) {
 
     Object.assign(headers, csrfHeader());
 
-    console.log(headers);
-    console.log(method);
-
     return {
         credentials: 'same-origin',
         headers
