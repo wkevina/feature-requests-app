@@ -48,11 +48,21 @@ function fetchFeatures({ dispatch }) {
     backend.endpoints.features.getAll().then(handler);
 };
 
+/**
+ * POST data to server, creating a new feature request
+ * If successful, the created data is added to the store
+ * If server reports other feature requests were modified,
+ * those are re-fetched and updated
+ */
 async function postFeature({ dispatch }, data) {
     const post = backend.endpoints.features.post;
 
     let response = await post(data);
-    console.log(response);
+
+    if (response.statusCode && response.statusCode() == 201) {
+        const responseData = response.body().data();
+        dispatch('FEATURES_APPEND', responseData);
+    }
 }
 
 function fetchClients({ dispatch }) {

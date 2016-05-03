@@ -106,6 +106,49 @@ describe('fetchFeatures', function () {
     });
 });
 
+describe('postFeature', function () {
+    const backend = mockBackend();
+    const actions = actionsInjector({
+        '../api/backend.js': backend
+    });
+
+    beforeEach(function () {
+        this.dispatch = sinon.stub();
+        this.post = sinon.stub();
+        backend.endpoints.features.post = this.post;
+    });
+
+    it('should call post method on features endpoint', function () {
+        const postData = {
+            key: 'value'
+        };
+
+        this.post.returns(Promise.resolve(mockResponse({}, 201)));
+
+        actions.postFeature({ dispatch: this.dispatch }, postData);
+
+        expect(this.post.called).toBe(true);
+        expect(this.post.calledWith(postData)).toBe(true);
+    });
+
+    it('should dispatch FEATURES_APPEND with returned data on 201', function () {
+        const body = {
+            key: 'value'
+        };
+
+        this.post.returns(Promise.resolve(mockResponse(body, 201)));
+
+        return delayed(() => {
+            actions.postFeature({ dispatch: this.dispatch }, {});
+        }, () => {
+            expect(
+                this.dispatch.calledWith('FEATURES_APPEND', body)
+            ).toBe(true);
+        });
+    });
+
+});
+
 describe('fetchClients', function () {
     const backend = mockBackend(),
           actions = actionsInjector({
