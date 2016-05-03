@@ -13,6 +13,8 @@ Object.assign(webpack, {
 
     noParse: [/sinon/],
 
+    plugins: [],
+
     devtool: 'inline-source-map'
 });
 
