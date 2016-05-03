@@ -49,6 +49,20 @@ const mutations = {
     },
 
     /**
+     Modify feature request in place
+     If a matching feature request doesn't exist, the new data will be inserted
+     instead
+     */
+    FEATURES_UPDATE(state, changed) {
+        const found = state.features.find(el => el.url == changed.url);
+        if (found) {
+            Object.assign(found, changed);
+        } else {
+            state.features.push(changed);
+        }
+    },
+
+    /**
      Replace the state.clients array
      */
     CLIENTS_REPLACE(state, clients) {

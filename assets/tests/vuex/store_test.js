@@ -59,6 +59,55 @@ describe('store', function () {
             });
         });
 
+        describe('FEATURES_UPDATE', function () {
+            it('should modify feature if argument has matching url', () => {
+                store.state.features = [
+                    {
+                        url: '/features/1',
+                        prop: 1
+                    },
+                    {
+                        url: '/features/2',
+                        prop: 2
+                    }
+                ];
+
+                store.dispatch('FEATURES_UPDATE', {
+                    url: '/features/1',
+                    prop: 'red'
+                });
+
+                const item = store.state.features[0];
+                expect(item.url).toEqual('/features/1');
+                expect(item.prop).toEqual('red');
+            });
+
+            it('should append feature if object does not match existing feature', () => {
+                store.state.features = [
+                    {
+                        url: '/features/1',
+                        prop: 1
+                    },
+                    {
+                        url: '/features/2',
+                        prop: 2
+                    }
+                ];
+
+                const oldLength = store.state.features.length;
+
+                store.dispatch('FEATURES_UPDATE', {
+                    url: '/features/3',
+                    prop: 'red'
+                });
+
+                expect(store.state.features.length).toEqual(oldLength + 1);
+                const item = store.state.features[2];
+                expect(item.url).toEqual('/features/3');
+                expect(item.prop).toEqual('red');
+            });
+        });
+
         describe('CLIENTS_REPLACE', function () {
             it('should replace store.state.clients', () => {
                 const newGuys = [{}, {}, {}];
