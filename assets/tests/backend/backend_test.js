@@ -68,6 +68,12 @@ describe('features endpoints', function () {
             });
 
         });
+
+        it('should encode query params', function () {
+            return features.getAll({ id: [1, 2, 3, 4] }).then((response) => {
+                console.log(fetchMock.lastUrl());
+            });
+        });
     });
 
     describe('member', function () {
