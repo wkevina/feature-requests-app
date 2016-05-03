@@ -45,6 +45,18 @@ describe('store', function () {
                     })).toBe(newGuy);
                 });
             });
+
+            it('should append single item to store.state.features', function () {
+                const newGuy = {};
+                const oldLength = store.state.features.length;
+
+                store.dispatch('FEATURES_APPEND', newGuy);
+
+                expect(store.state.features.length).toBe(oldLength + 1);
+
+                expect(store.state.features.find(el => el === newGuy))
+                    .toBe(newGuy);
+            });
         });
 
         describe('CLIENTS_REPLACE', function () {

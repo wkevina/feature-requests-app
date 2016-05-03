@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import isIterable from '../../js/util/is-iterable.js';
+
 // Must initialize plugin
 // Has to be done here because webpack hoists imports before executable code
 Vue.use(Vuex);
@@ -39,7 +41,11 @@ const mutations = {
      Append new features to the state.features array
      */
     FEATURES_APPEND(state, features) {
-        state.features.push(...features);
+        if (isIterable(features)) {
+            state.features.push(...features);
+        } else {
+            state.features.push(features);
+        }
     },
 
     /**
