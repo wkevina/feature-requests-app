@@ -62,6 +62,39 @@ async function postFeature({ dispatch }, data) {
     if (response.statusCode && response.statusCode() == 201) {
         const responseData = response.body().data();
         dispatch('FEATURES_APPEND', responseData);
+
+        const headers = response.headers();
+        if ('x-also-modified' in headers) {
+            const modified = JSON.parse(headers['x-also-modified']);
+            const getAll = backend.endpoints.features.getAll;
+
+            if (modified.length == 0)
+                return;
+
+            let params = { id: modified };
+
+            while (true) {
+                let response = await getAll(params);
+
+                if (statusOk(response)) {
+                    let payload = response.body().data();
+                    let updated = payload.results;
+
+                    // Update features
+                    updated.forEach(feature => dispatch('FEATURES_UPDATE', feature));
+
+                    if (payload.next) {
+                        // Construct URI
+                        const uri = URI(payload.next);
+                        params = uri.search(true);
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
     }
 }
 
