@@ -1,7 +1,7 @@
 <template>
   <div class="feature-form">
     <h4>Create new feature request</h4>
-    <form v-form name="newForm" @submit.prevent="onSubmit">
+    <form v-form name="newForm" @submit.prevent="onSubmit" hook="formHook">
 
       <!-- Title -->
       <div class="row">
@@ -18,7 +18,7 @@
 
       <!-- Description -->
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group"
                :class="{'has-error': errors.description}">
             <label for="feature-description">Description</label>
@@ -94,8 +94,10 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-default"
-              :disabled="newForm.$invalid">Submit</button>
+      <button type="submit" class="btn btn-success"
+              :disabled="newForm.$invalid && !locked">
+        Submit
+      </button>
 
 </template>
 
@@ -118,7 +120,8 @@ export default {
                 target_date: '',
                 ticket_url: ''
             },
-            newForm: {}
+            newForm: {},
+            locked: false
         }
     },
     vuex: {
@@ -135,9 +138,9 @@ export default {
            Compute validation errors for each field
            Returns object of the form:
            {
-             ...
-             fieldName: $touched && $invalid,
-             ...
+           ...
+           fieldName: $touched && $invalid,
+           ...
            }
          */
         errors() {
@@ -154,10 +157,17 @@ export default {
         }
     },
     methods: {
+        formHook(form) {
+            this.form = form;
+        },
         onSubmit() {
-            // Do nothing useful
-            console.log(JSON.stringify(this.model));
-            console.log(this.postFeature(this.model));
+            this.locked = true;
+
+            this.postFeature(this.model)
+                .then(() => {
+                    this.reset();
+                })
+                .catch(() => this.locked = false);
         },
         /**
            Custom date validator
@@ -166,6 +176,29 @@ export default {
         validateDate(value) {
             // strictly parse string with moment
             return moment(value, 'YYYY-MM-DD', true).isValid();
+        },
+        /**
+           Reset model to default values
+         */
+        reset() {
+            this.model = {
+                title: '',
+                description: '',
+                client: '',
+                client_priority: '',
+                product_area: '',
+                target_date: '',
+                ticket_url: ''
+            };
+
+            this.locked = false;
+
+            console.log('reset');
+
+            this.$nextTick(() => {
+                this.form.setPristine();
+                console.log(this.form);
+            });
         }
     }
 }
