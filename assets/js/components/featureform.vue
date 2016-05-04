@@ -46,7 +46,7 @@
         </div>
 
         <!-- Client Priority -->
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-6">
           <div class="form-group"
                :class="{'has-error': errors.client_priority}">
             <label for="feature-client-priority">Priority</label>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Target Date -->
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-4 col-sm-6">
           <div class="form-group"
                :class="{'has-error': errors.target_date}">
             <label for="feature-target-date">Target Date</label>

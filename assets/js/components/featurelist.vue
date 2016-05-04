@@ -6,7 +6,7 @@ A list of feature requests
   <div class="feature-list">
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <toggle-content>
           <span slot="button">
             Add Feature Request
