@@ -23,6 +23,7 @@
 
 <script>
 export default {
+    props: ['dismiss-on'],
     data() {
         return {
             show: false
@@ -32,6 +33,16 @@ export default {
         toggle(show) {
             this.show = show;
         }
+    },
+    ready() {
+        if (this.dismissOn) {
+            this.$on(this.dismissOn, () => this.toggle(false));
+        }
+    },
+    events: {
+        /*[this.dismissOn]: function() {
+         *    this.toggle(false);
+         *}*/
     }
 }
 </script>

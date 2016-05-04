@@ -1,3 +1,10 @@
+/**
+Form that POSTs new feature request
+
+Events:
+'form-submitted' after data has been posted and store has been updated
+*/
+
 <template>
   <div class="feature-form">
     <h4>Create new feature request</h4>
@@ -233,6 +240,7 @@ export default {
                 .then(() => {
                     this.locked = false;
                     this.$refs.spinner.dismiss();
+                    this.$dispatch('form-submitted');
                 });
         },
         /**
@@ -266,9 +274,6 @@ export default {
     },
     components: {
         Momentary
-    },
-    transitions: {
-        'fade': {}
     }
 }
 

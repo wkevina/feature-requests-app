@@ -7,13 +7,13 @@ A list of feature requests
 
     <div class="row">
       <div class="col-md-8">
-        <toggle-content>
+        <toggle-content dismiss-on="form-submitted">
           <span slot="button">
             Add Feature Request
           </span>
-          <feature-form slot="content"></feature-form>
+          <feature-form slot="content" transition="fade"></feature-form>
 
-          <hr slot="footer">
+          <hr slot="footer" transition="fade">
         </toggle-content>
 
       </div>
