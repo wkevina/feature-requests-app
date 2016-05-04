@@ -139,7 +139,7 @@ export default {
            Returns object of the form:
            {
            ...
-           fieldName: $touched && $invalid,
+           fieldName: $dirty && $invalid,
            ...
            }
          */
@@ -150,7 +150,7 @@ export default {
                 const state = pair[1];
 
                 return {
-                    [propName]: state.$touched && state.$invalid
+                    [propName]: state.$dirty && state.$invalid
                 }
             });
             return Object.assign({}, ...processed);
@@ -193,11 +193,8 @@ export default {
 
             this.locked = false;
 
-            console.log('reset');
-
             this.$nextTick(() => {
                 this.form.setPristine();
-                console.log(this.form);
             });
         }
     }
