@@ -6,6 +6,20 @@ A list of feature requests
   <div class="feature-list">
 
     <div class="row">
+      <div class="col-md-6">
+        <toggle-content>
+          <span slot="button">
+            Add Feature Request
+          </span>
+          <feature-form slot="content"></feature-form>
+
+          <hr slot="footer">
+        </toggle-content>
+
+      </div>
+    </div>
+
+    <div class="row">
 
       <div class="col-md-6">
         <filter-list></filter-list>
@@ -63,6 +77,8 @@ import '../filters/prop';
 import Paginator from './paginator.vue';
 import SortButton from './sortbutton.vue';
 import FilterList from './filter-list.vue';
+import FeatureForm from './featureform.vue';
+import ToggleContent from './toggle-content.vue';
 
 
 export default {
@@ -83,7 +99,9 @@ export default {
     components: {
         SortButton,
         Paginator,
-        FilterList
+        FilterList,
+        FeatureForm,
+        ToggleContent
     },
     vuex: {
         getters: {
