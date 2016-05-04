@@ -81,7 +81,9 @@ async function postFeature({ dispatch }, data) {
                     let updated = payload.results;
 
                     // Update features
-                    updated.forEach(feature => dispatch('FEATURES_UPDATE', feature));
+                    updated.forEach(
+                        feature => dispatch('FEATURES_UPDATE', feature)
+                    );
 
                     if (payload.next) {
                         // Construct URI
