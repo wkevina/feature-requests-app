@@ -99,14 +99,69 @@
         Submit
       </button>
 
+      <momentary v-ref:spinner>
+        <div class="loading" transition="fade">
+          <div class="backdrop"></div>
+          <div class="content">
+            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </momentary>
+    </form>
+  </div>
+
 </template>
 
+<style lang="sass">
+
+ $backdrop-color: #5BC0DE;
+
+ .feature-form {
+     position: relative;
+
+     .loading {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         top: 0;
+         left: 0;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+
+         .backdrop {
+             position: absolute;
+             background: $backdrop-color;
+             box-shadow: 0 0 1em 1em $backdrop-color;
+             border-radius: 1em;
+             opacity: 0.25;
+             width: 100%;
+             height: 100%;
+             top: 0;
+             left: 0;
+         }
+     }
+ }
+
+ /* always present */
+ .fade-transition {
+     transition: opacity 0.3s ease;
+ }
+
+ /* .expand-enter defines the starting state for entering */
+ /* .expand-leave defines the ending state for leaving */
+ .fade-enter, .fade-leave {
+     opacity: 0;
+ }
+</style>
 
 <script>
 import 'nodep-date-input-polyfill';
 import moment from 'moment';
 import {clients, productAreas} from '../vuex/getters.js';
 import { postFeature } from '../vuex/actions.js';
+import Momentary from './momentary.vue';
 
 export default {
     data() {
@@ -161,13 +216,24 @@ export default {
             this.form = form;
         },
         onSubmit() {
+            // Disable submit button
             this.locked = true;
 
+            // Show progress overlay
+            this.$refs.spinner.show();
+
             this.postFeature(this.model)
+            // Clear form
                 .then(() => {
                     this.reset();
                 })
-                .catch(() => this.locked = false);
+            // Handle errors
+                .catch()
+            // Unlock form
+                .then(() => {
+                    this.locked = false;
+                    this.$refs.spinner.dismiss();
+                });
         },
         /**
            Custom date validator
@@ -197,6 +263,12 @@ export default {
                 this.form.setPristine();
             });
         }
+    },
+    components: {
+        Momentary
+    },
+    transitions: {
+        'fade': {}
     }
 }
 
