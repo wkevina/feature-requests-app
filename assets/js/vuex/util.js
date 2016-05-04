@@ -17,7 +17,17 @@ export function makeFilter(filters) {
                 return true;
             }
 
-            return objectPath.get(feature, filter.opt.prop) == filter.value;
+            const modelProperty = objectPath.get(feature, filter.opt.prop);
+
+            // If filter uses value list, match exactly
+            if (filter.values) {
+                return modelProperty == filter.value;
+            } else {
+                return modelProperty == filter.value ||
+                    modelProperty.toLowerCase().trim().includes(
+                        filter.value.toLowerCase().trim()
+                    );
+            }
         });
     };
 }

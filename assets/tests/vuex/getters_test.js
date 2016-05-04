@@ -152,3 +152,57 @@ describe('filterOptions', function () {
         expect(got[2].values).toEqual(['Sales', 'Billing']);
     });
 });
+
+describe('filteredFeatures', function () {
+    beforeEach(function () {
+        this.state = mockState();
+        this.state.sort = {};
+    });
+
+    it('should return exact matches for filters with values list', function () {
+        this.state.filters = [
+            {
+                opt: { title: 'Client', prop: 'client.name' },
+                value: 'Client A'
+            }
+        ];
+
+        const onlyClientA = getters.filteredFeatures(this.state);
+        expect(onlyClientA.length).toBe(1);
+        expect(onlyClientA[0].title).toEqual('Mock1');
+
+        // Add another mutually exclusive filter
+        this.state.filters.push(
+            { opt: { title: 'Product Area', prop: 'product_area.name' },
+              value: 'Marketing' }
+        );
+
+        const noMatch = getters.filteredFeatures(this.state);
+        expect(noMatch.length).toBe(0);
+    });
+
+    it('should return substring matches for filters with no values list', function () {
+        this.state.filters = [
+            {
+                opt: { title: 'Title', prop: 'title' },
+                value: 'MoCk'
+            }
+        ];
+
+        const matchAll = getters.filteredFeatures(this.state);
+        expect(matchAll.length).toBe(3);
+        expect(matchAll.map(el => el.title))
+            .toEqual(['Mock1', 'Mock2', 'Mock3']);
+
+        this.state.filters = [
+            {
+                opt: { title: 'Title', prop: 'title' },
+                value: 'Mock1'
+            }
+        ];
+
+        const matchOne = getters.filteredFeatures(this.state);
+        expect(matchOne.length).toBe(1);
+        expect(matchOne[0].title).toEqual('Mock1');
+    });
+});
