@@ -46,6 +46,7 @@
     "nodep-date-input-polyfill": "^2.4.6",
     "object-path": "^0.9.2",
     "phantomjs-prebuilt": "^2.1.7",
+    "qs": "^6.1.0",
     "restful.js": "github:marmelab/restful.js",
     "sass-loader": "^3.2.0",
     "sinon": "^1.17.3",

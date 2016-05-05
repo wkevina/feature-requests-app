@@ -8,6 +8,7 @@
 
 import backend from '../api/backend.js';
 import URI from 'urijs';
+import qs from 'qs';
 
 function unwrapResponse(response) {
     return response.body().data().results;
@@ -87,8 +88,8 @@ async function postFeature({ dispatch }, data) {
 
                     if (payload.next) {
                         // Construct URI
-                        const uri = URI(payload.next);
-                        params = uri.search(true);
+                        const query = URI(payload.next).query();
+                        params = qs.parse(query);
                     } else {
                         break;
                     }
