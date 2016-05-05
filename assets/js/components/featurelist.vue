@@ -75,7 +75,7 @@ A list of feature requests
 import {filteredFeatures, filterList} from '../vuex/getters.js';
 import '../filters/prop';
 import Paginator from './paginator.vue';
-import SortButton from './sortbutton.vue';
+import SortButton from './sort-button.vue';
 import FilterList from './filter-list.vue';
 import FeatureForm from './featureform.vue';
 import ToggleContent from './toggle-content.vue';
