@@ -13,7 +13,8 @@
 
     <!-- Render as select if there is a values array -->
     <select v-show="values && editing" class="filter-input" tabindex="0"
-            v-el:value-select v-model="model.value" @keyup.enter="commit">
+            v-el:value-select v-model="model.value"
+            @keyup.enter="endEdit">
 
       <option v-for="value in values" :value="value">
         {{ value }}
@@ -23,7 +24,7 @@
     <!-- Render as input for open-ended filters -->
     <input v-show="editing && !values" class="filter-input" tabindex="0"
            placeholder="Value" v-el:value-input v-model="model.value"
-           @keyup.enter="commit">
+           @keyup.enter="endEdit">
 
 
     <!-- Render filter info statically -->
@@ -37,12 +38,18 @@
       {{ model.value || '&nbsp;' }}
     </span>
 
-
-    <a class="filter-control btn btn-danger" @click="removeFilter(filter)" >
-      <span class="glyphicon glyphicon-remove"></span>
-    </a>
+    <div>
+      <a class="filter-control btn btn-success" @click.stop="endEdit"
+         :disabled="!editing">
+        <span class="glyphicon glyphicon-ok"></span>
+      </a>
+      <a class="filter-control btn btn-danger" @click="removeFilter(filter)" >
+        <span class="glyphicon glyphicon-remove"></span>
+      </a>
+    </div>
 
   </li>
+
 
 </template>
 
@@ -79,7 +86,6 @@ export default {
                     // Lookup each target in parent
                     const t = this.vm.$els[target];
                     t.focus();
-                    console.log(t);
                 }
             }
         }
@@ -121,6 +127,10 @@ export default {
         this.sync();
     },
 
+    watch: {
+        'model.value': 'commit'
+    },
+
     methods: {
         /**
            Enter editing mode
@@ -130,6 +140,13 @@ export default {
                 this.editing = true;
                 this.sync();
             }
+        },
+
+        /**
+           Leave editing mode
+         */
+        endEdit() {
+            this.editing = false;
         },
 
         /**
@@ -169,9 +186,7 @@ export default {
 
             /* Submit modified data */
             this.updateFilter(this.filter, {opt, value});
-            this.editing = false;
         }
-
     },
 
     events: {
