@@ -96,6 +96,33 @@ export default {
             pageSize: 20
         }
     },
+    watch: {
+        'features': 'clampPage',
+        'page': 'clampPage'
+    },
+    methods: {
+        clampPage() {
+            const route = this.$route;
+            const name = route.name;
+            const params = Object.assign({}, route.params);
+
+            if (this.page > this.maxPage) {
+                params.page = this.maxPage || 1;
+
+                route.router.go({
+                    name,
+                    params
+                });
+            } else if(this.page < 1) {
+                params.page = 1;
+
+                route.router.go({
+                    name,
+                    params
+                });
+            }
+        }
+    },
     components: {
         SortButton,
         Paginator,
@@ -108,15 +135,15 @@ export default {
             /* Expose features array */
             features: filteredFeatures,
             page: state => {
-                const raw = parseInt(state.route.params.page) || 1;
-                return raw > 0 ? raw : 1;
+                const raw = parseInt(state.route.params.page) || 0;
+                return raw;
             }
         }
     },
     computed: {
         // Highest page number given length this.features and this.pageSize
         maxPage() {
-            return this.features.length / this.pageSize;
+            return Math.ceil(this.features.length / this.pageSize);
         }
     }
 }
