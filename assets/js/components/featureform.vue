@@ -173,16 +173,6 @@ Events:
      }
  }
 
- /* always present */
- .fade-transition {
-     transition: opacity 0.3s ease;
- }
-
- /* .expand-enter defines the starting state for entering */
- /* .expand-leave defines the ending state for leaving */
- .fade-enter, .fade-leave {
-     opacity: 0;
- }
 </style>
 
 <script>
