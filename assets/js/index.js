@@ -27,10 +27,6 @@ router.map({
     '/list/:page': {
         component: FeatureList,
         name: 'list-all'
-    },
-    '/new': {
-        component: FeatureForm,
-        name: 'new-feature'
     }
 });
 

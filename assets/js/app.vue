@@ -5,9 +5,6 @@
       <li v-link-active>
         <a v-link="{name: 'home'}">Home</a>
       </li>
-      <li v-link-active>
-        <a v-link="{name: 'new-feature'}">Create</a>
-      </li>
     </ul>
 
     <div class="buffer">
