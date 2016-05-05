@@ -108,13 +108,26 @@ Events:
 
       <momentary v-ref:spinner>
         <div class="loading" transition="fade">
-          <div class="backdrop"></div>
+
           <div class="content">
-            <i class="fa fa-spinner fa-pulse fa-3x"></i>
-            <span class="sr-only">Loading...</span>
+
+            <template v-if="locked">
+              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+              <span class="sr-only">Loading...</span>
+            </template>
+
+            <template v-else>
+              <i class="fa fa-check-circle-o fa-3x success"></i>
+              <span class="sr-only">Submitted</span>
+            </template>
           </div>
+
+          <div class="backdrop"></div>
+
         </div>
+
       </momentary>
+
     </form>
   </div>
 
@@ -122,7 +135,7 @@ Events:
 
 <style lang="sass">
 
- $backdrop-color: #5BC0DE;
+ $backdrop-color: #FFF;
 
  .feature-form {
      position: relative;
@@ -142,11 +155,20 @@ Events:
              background: $backdrop-color;
              box-shadow: 0 0 1em 1em $backdrop-color;
              border-radius: 1em;
-             opacity: 0.25;
+             opacity: 0.75;
              width: 100%;
              height: 100%;
              top: 0;
              left: 0;
+             z-index: 10;
+         }
+
+         .content {
+             z-index: 11;
+         }
+
+         .success {
+             color: #5cb85c;
          }
      }
  }
@@ -169,6 +191,12 @@ import moment from 'moment';
 import {clients, productAreas} from '../vuex/getters.js';
 import { postFeature } from '../vuex/actions.js';
 import Momentary from './momentary.vue';
+
+function timeout(time) {
+    return new Promise(function(resolve) {
+        setTimeout(() => resolve(), time);
+    });
+}
 
 export default {
     data() {
@@ -233,14 +261,17 @@ export default {
             // Clear form
                 .then(() => {
                     this.reset();
+                    this.locked = false;
+
+                    timeout(500).then(() => {
+                        this.$refs.spinner.dismiss();
+                        this.$dispatch('form-submitted');
+                    });
                 })
             // Handle errors
-                .catch()
-            // Unlock form
-                .then(() => {
+                .catch(() => {
                     this.locked = false;
                     this.$refs.spinner.dismiss();
-                    this.$dispatch('form-submitted');
                 });
         },
         /**

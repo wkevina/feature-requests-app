@@ -1,23 +1,25 @@
 <template>
   <div class="toggle-content-container">
 
-    <slot name="header" v-if="show"></slot>
-
-    <button @click="toggle(true)" class="btn btn-primary"
-            v-if="!show">
+    <button @click="toggle(true)" class="btn btn-primary">
 
       <slot name="button"></slot>
 
     </button>
 
-    <slot name="content" v-if="show"></slot>
+    <div class="toggle-on">
+      <slot name="header" v-if="show"></slot>
 
-    <button class="btn btn-info dismiss" @click="toggle(false)"
-            v-if="show">
-      Dismiss&nbsp;
-      <span class="glyphicon glyphicon-remove"></span>
-    </button>
-    <slot name="footer" v-if="show"></slot>
+      <slot name="content" v-if="show"></slot>
+
+      <button class="btn btn-info dismiss" @click="toggle(false)"
+              v-if="show">
+        Dismiss&nbsp;
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+
+      <slot name="footer" v-if="show"></slot>
+    </div>
   </div>
 </template>
 
