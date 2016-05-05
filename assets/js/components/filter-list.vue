@@ -2,7 +2,9 @@
   <div class="filter-list">
 
       <ul class="list-group filter-list-group">
-        <filter-list-item v-for="filter in filterList" :filter="filter"></filter-list-item>
+        <filter-list-item v-for="filter in filterList" :filter="filter"
+                          transition="fade">
+        </filter-list-item>
       </ul>
 
     <div class="row">
