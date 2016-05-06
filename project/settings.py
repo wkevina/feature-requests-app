@@ -11,7 +11,24 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import logging
 import dj_database_url
+
+logger = logging.getLogger(__name__)
+
+def env(key, default=None, cast=None):
+    val = os.environ.get(key, default)
+    if cast is bool:
+        if val == 'on':
+            val = True
+        elif val == 'off':
+            val = False
+
+    if cast:
+        return cast(val)
+    else:
+        return val
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,15 +47,12 @@ WEBPACK_LOADER = {
     }
 }
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG', cast=bool)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'okc_n@xrn&dqrms66xk8l2+gb67c1c%8_hnut*^z&elfcjgzz-'
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
