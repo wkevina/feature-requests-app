@@ -2,6 +2,9 @@
   "name": "feature-requests",
   "description": "",
   "author": "Kevin Ward <antiomiae@gmail.com>",
+  "engines": {
+    "node": "6.0.0"
+  },
   "private": true,
   "scripts": {
     "test": "karma start --single-run",
