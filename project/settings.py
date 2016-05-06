@@ -55,7 +55,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env('APP_URL', '')]
 
 
 # Application definition
