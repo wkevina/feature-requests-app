@@ -2,7 +2,7 @@
 #dist: trusty
 language: python
 node_js:
-  - "5"
+  - "6"
 python:
   - "3.4"
   - "3.5"
@@ -22,8 +22,8 @@ env:
 
 # command to install dependencies
 install:
-  - nvm install 5
-  - nvm use 5
+  - nvm install 6
+  - nvm use 6
   - npm install
   - pip install -r requirements.txt
 
@@ -34,6 +34,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - psql -c 'create database django;' -U postgres
   - psql -c 'create database test_django;' -U postgres
+  - python manage.py collectstatic --noinput
 
 # command to run tests
 script:
